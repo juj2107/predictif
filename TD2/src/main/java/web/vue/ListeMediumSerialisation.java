@@ -12,7 +12,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import metier.modele.Astrologue;
+import metier.modele.Cartomancier;
 import metier.modele.Medium;
+import metier.modele.Spirite;
 
 /**
  *
@@ -33,6 +36,19 @@ public class ListeMediumSerialisation extends Serialisation {
             jsonMedium.add("denomination", medium.getDenomination());
             jsonMedium.add("genre", medium.getGenre());
             jsonMedium.add("presentation", medium.getPresentation());
+            String profession;
+
+            if (medium instanceof Astrologue) {
+                profession = "Astrologue";
+            }
+            else if (medium instanceof Cartomancier) {
+                profession = "Cartomancien";
+            }
+            else {
+                profession = "Spirite";
+            }
+            
+            jsonMedium.add("profession", profession);
 
             jsonListeMediums.add(jsonMedium);
         }
