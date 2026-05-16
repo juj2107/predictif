@@ -10,37 +10,29 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import metier.modele.ProfilAstral;
+import metier.modele.Consultation;
 
 /**
  *
  * @author jduprez
  */
-public class ProfilAstralSerialisation extends Serialisation {
+public class ConsultationSerialisation extends Serialisation {
 
     @Override
     public void appliquer(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        ProfilAstral profil = (ProfilAstral) request.getAttribute("profil");
-        String prenom = (String) request.getAttribute("prenom");
-        String nom = (String) request.getAttribute("nom");
-        System.out.println("serialisation "+ profil);
+        Consultation consultation = (Consultation) request.getAttribute("consultation");
+        Boolean estPret = (Boolean) request.getAttribute("estPret");
+        
+        System.out.println("serialisation "+ consultation);
         JsonObjectBuilder jsonContainer = Json.createObjectBuilder();
-        jsonContainer.add("signeZ", profil.getSigneZodiaque());
-        jsonContainer.add("signeC", profil.getSigneChinois());
-        jsonContainer.add("couleur", profil.getCouleur());
-        jsonContainer.add("animal", profil.getAnimalTotem());
-        jsonContainer.add("prenom", prenom);
-        jsonContainer.add("nom", nom);
+        jsonContainer.add("medium", consultation.getMedium().getDenomination());
+        jsonContainer.add("estPret", estPret);
+        
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         out.print(jsonContainer.build().toString());
         out.close();
     }
-
-    public ProfilAstralSerialisation() {
-    }
-    
-    
     
 }

@@ -36,7 +36,7 @@ public class HistoriqueSerialisation extends Serialisation{
             JsonObjectBuilder jsonConsultation = Json.createObjectBuilder();
             jsonConsultation.add("medium", consultation.getMedium().getDenomination());
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            jsonConsultation.add("date", consultation.getDateFin().format(formatter));
+            jsonConsultation.add("date", consultation.getDateDebut().format(formatter));
 
             jsonHistorique.add(jsonConsultation);
         }

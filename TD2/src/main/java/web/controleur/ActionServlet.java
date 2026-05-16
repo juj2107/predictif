@@ -12,14 +12,20 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import web.modele.Action;
+import web.modele.AfficherHistoriquePourEmployeAction;
+import web.modele.AfficherProfilAstralPourEmployeAction;
 import web.modele.CommencerConsultationAction;
 import web.modele.ConnexionAction;
 import web.modele.ConsulterHistoriqueAction;
 import web.modele.ConsulterListeMediumsAction;
 import web.modele.ConsulterProfilAstralAction;
+import web.modele.DemarrerConsultationAction;
 import web.modele.InscriptionAction;
+import web.modele.RecupererConsultationAction;
+import web.modele.VerifierConnexionAction;
 import web.vue.CommencerConsultationSerialisation;
 import web.vue.ConnexionSerialisation;
+import web.vue.ConsultationSerialisation;
 import web.vue.HistoriqueSerialisation;
 import web.vue.InscriptionSerialisation;
 import web.vue.ListeMediumSerialisation;
@@ -83,6 +89,39 @@ public class ActionServlet extends HttpServlet {
             Serialisation serialisation = new CommencerConsultationSerialisation();
             serialisation.appliquer(request, response);
         }
+        if (todo.equals("afficher-profil-pour-employe")) {
+            Action action = new AfficherProfilAstralPourEmployeAction();
+            action.execute(request);
+            Serialisation serialisation = new ProfilAstralSerialisation();
+            serialisation.appliquer(request, response);
+        }
+        if (todo.equals("afficher-historique-pour-employe")) {
+            Action action = new AfficherHistoriquePourEmployeAction();
+            action.execute(request);
+            Serialisation serialisation = new HistoriqueSerialisation();
+            serialisation.appliquer(request, response);
+        }
+        if (todo.equals("recuperer-consultation")) {
+            Action action = new RecupererConsultationAction();
+            action.execute(request);
+            Serialisation serialisation = new ConsultationSerialisation();
+            serialisation.appliquer(request, response);
+        }
+        if (todo.equals("demarrer-consultation")) {
+            Action action = new DemarrerConsultationAction();
+            action.execute(request);
+            Serialisation serialisation = new ConsultationSerialisation();
+            serialisation.appliquer(request, response);
+        }
+        if (todo.equals("verifier-connexion")) {
+            Action action = new VerifierConnexionAction();
+            action.execute(request);
+            Serialisation serialisation = new ConnexionSerialisation();
+            serialisation.appliquer(request, response);
+        }
+        
+        
+        
         
         
         

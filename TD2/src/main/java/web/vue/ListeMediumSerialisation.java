@@ -15,7 +15,6 @@ import java.util.List;
 import metier.modele.Astrologue;
 import metier.modele.Cartomancier;
 import metier.modele.Medium;
-import metier.modele.Spirite;
 
 /**
  *
@@ -26,8 +25,10 @@ public class ListeMediumSerialisation extends Serialisation {
     @Override
     public void appliquer(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<Medium> mediums = (List<Medium>) request.getAttribute("listeMedium");
+        Boolean connecte = (Boolean) request.getAttribute("connecte");
         System.out.println("serialisation "+ mediums);
         JsonObjectBuilder jsonContainer = Json.createObjectBuilder();
+        
         JsonArrayBuilder jsonListeMediums = Json.createArrayBuilder();
 
         for (Medium medium : mediums) {
@@ -55,6 +56,12 @@ public class ListeMediumSerialisation extends Serialisation {
         }
 
         jsonContainer.add("mediums", jsonListeMediums);
+        if (connecte) {
+            jsonContainer.add("connecte",true);
+        }else {
+            jsonContainer.add("connecte",false);
+        }
+        
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Démarrer consultation</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <a href="./index.html"> Accueil </a>
+        <h1 id="nom-client"></h1>
+        <h2 id="nom-medium"></h2>
+        <div id="conteneur-tableaux"> <!-- pour css, pour mettre les 2 tableaux à côté-->
+            <table id="profil-astral"></table>
+            <table id="historique"></table>
+        </div>
+        <button id="demarrer">Démarrer la consultation</button>
+        
+        
+        <script>
+            function initPage() {
+                console.log("Initialisation de la page");
+                afficherProfil();
+                listerConsultations();
+                recupererConsultation();
+                document.getElementById('demarrer').addEventListener('click', function() {
+                    console.log("Click sur le bouton 'démarrer consultation'");
+                    demarrerConsultation();
+                });
+            };
+            
+            async function afficherProfil() {
+                console.log("Appel de l'Action: afficher le profil");
+                let url = './ActionServlet?todo=afficher-profil-pour-employe';
+                let jsonResponse = await fetch(url)
+                        .then(
+                            function(httpResponse) {
+                                return httpResponse.json();
+                            }
+                        )
+                        .catch(
+                            function(error) {
+                                console.log(error);
+                                return null;
+                            }
+                        );
+                console.log(jsonResponse);
+                if (jsonResponse) {
+                    console.log('Affichage du profil');
+                    
+                    let signeZ = jsonResponse.signeZ;
+                    let signeC = jsonResponse.signeC;
+                    let couleur = jsonResponse.couleur;
+                    let animal = jsonResponse.animal;
+                    let prenom = jsonResponse.prenom;
+                    let nom = jsonResponse.nom;
+                    
+                    let messBienvenue = document.getElementById("nom-client");
+                    messBienvenue.textContent = "Ma Consultation avec "+prenom+" "+nom;
+                            
+                    const table = document.getElementById("profil-astral");
+                    let row1 = table.insertRow();
+                    let cellNom = row1.insertCell(0);
+                    let cellContenu = row1.insertCell(1);
+                    cellNom.innerHTML = "Signe du zodiaque :";
+                    cellContenu.innerHTML = signeZ;
+                    let row2 = table.insertRow();
+                    cellNom = row2.insertCell(0);
+                    cellContenu = row2.insertCell(1);
+                    cellNom.innerHTML = "Signe chinois :";
+                    cellContenu.innerHTML = signeC;
+                    let row3 = table.insertRow();
+                    cellNom = row3.insertCell(0);
+                    cellContenu = row3.insertCell(1);
+                    cellNom.innerHTML = "Couleur :";
+                    cellContenu.innerHTML = couleur;
+                    let row4 = table.insertRow();
+                    cellNom = row4.insertCell(0);
+                    cellContenu = row4.insertCell(1);
+                    cellNom.innerHTML = "Animal totem :";
+                    cellContenu.innerHTML = animal;                    
+                    
+                    
+                    
+                }
+            }
+            async function listerConsultations() {
+                console.log("Appel de l'Action: Consulter historique consultations");
+                let url = './ActionServlet?todo=afficher-historique-pour-employe';
+                let jsonResponse = await fetch(url)
+                        .then(
+                            function(httpResponse) {
+                                return httpResponse.json();
+                            }
+                        )
+                        .catch(
+                            function(error) {
+                                console.log(error);
+                                return null;
+                            }
+                        );
+                console.log(jsonResponse);
+                if (jsonResponse) {
+                    console.log("Affichage de l'historique");
+                    let historique = jsonResponse.historique;
+                    
+                    const table = document.getElementById("historique");
+                    for (let consultation of historique) {
+                        console.log(consultation.medium, consultation.date);
+                        const tr = document.createElement("tr");
+                        const thM = document.createElement("th");
+                        thM.textContent = "Médium :";
+                        tr.appendChild(thM);
+                        const tdMedium = document.createElement("td");
+                        tdMedium.textContent = consultation.medium;
+                        tr.appendChild(tdMedium);
+                        const thD = document.createElement("th");
+                        thD.textContent = "Date :";
+                        tr.appendChild(thD);
+                        const tdDate = document.createElement("td");
+                        tdDate.textContent = consultation.date;
+                        tr.appendChild(tdDate);
+                        table.appendChild(tr);
+                    }
+                    
+                    
+                    
+                }
+            }
+            async function recupererConsultation() {
+                console.log("Appel de l'Action : récupérer consultation");
+                let url = './ActionServlet?todo=recuperer-consultation';
+                let jsonResponse = await fetch(url)
+                        .then(
+                            function(httpResponse) {
+                                return httpResponse.json();
+                            }
+                        )
+                        .catch(
+                            function(error) {
+                                console.log(error);
+                                return null;
+                            }
+                        );
+                console.log(jsonResponse);
+                if (jsonResponse) {
+                    console.log("Affichage du nom du médium à incarner");
+                    let medium = jsonResponse.medium;
+                    
+                    let mess = document.getElementById("nom-medium");
+                    mess.textContent = "Vous incarnez "+medium+" !";
+                    
+                }
+            }
+            async function demarrerConsultation() {
+                console.log("Appel de l'Action : démarrer consultation");
+                let url = './ActionServlet?todo=demarrer-consultation';
+                let jsonResponse = await fetch(url)
+                        .then(
+                            function(httpResponse) {
+                                return httpResponse.json();
+                            }
+                        )
+                        .catch(
+                            function(error) {
+                                console.log(error);
+                                return null;
+                            }
+                        );
+                console.log(jsonResponse);
+                if (jsonResponse) {
+                    let reussite = jsonResponse.estPret;
+                    if (reussite) {
+                        console.log("Consultation commencée par l'employé");
+                        window.location.href = "./consultation_en_cours.html";
+                    }
+                    else {
+                        console.log("Échec de lancement de la consulation");
+                    }
+                    
+                }
+            }
+            window.onload = initPage;
+        </script>
+    </body>
+</html>

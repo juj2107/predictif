@@ -6,7 +6,54 @@
     </head>
     <body>
         <h1>PREDICT'IF</h1>
-        <a href="./connexion.html"> Se connecter </a> <br>
-        <a href="./liste_mediums.html"> Mediums </a>
+        <div id="lien-connexion"></div>
+        <div id="lien-mediums"></div>
+        <div id="lien-consultation"></div>
+        
+        <script>
+            async function verifierConnexion() {
+                let url = './ActionServlet?todo=verifier-connexion';
+                let jsonResponse = await fetch(url)
+                        .then(
+                            function(httpResponse) {
+                                return httpResponse.json();
+                            }
+                        )
+                        .catch(
+                            function(error) {
+                                console.log(error);
+                                return null;
+                            }
+                        );
+                console.log(jsonResponse);
+
+                if (jsonResponse.connexion === true) {
+                    if (jsonResponse.type === "employe") {
+                        let lien = document.createElement("a");
+                        lien.href="./demarrer_consultation.html";
+                        lien.textContent = "Ma consultation";
+                        document.getElementById("lien-consultation").appendChild(lien);
+                    } else {
+                        let lien = document.createElement("a");
+                        lien.href="./liste_mediums.html";
+                        lien.textContent = "Mediums";
+                        document.getElementById("lien-mediums").appendChild(lien);
+                    }
+                }
+                else {
+                    let lienC = document.createElement("a");
+                    lienC.href="./connexion.html";
+                    lienC.textContent = "Connexion";
+                    document.getElementById("lien-connexion").appendChild(lienC);
+                    
+                    let lienM = document.createElement("a");
+                    lienM.href="./liste_mediums.html";
+                    lienM.textContent = "Mediums";
+                    document.getElementById("lien-mediums").appendChild(lienM);
+                }
+        }
+
+        window.onload = verifierConnexion;
+        </script>
     </body>
 </html>

@@ -10,6 +10,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        <a href="./index.html"> Accueil </a>
         <h1>Liste mediums</h1>
         <div id="message-rdv"></div>
         <table id="liste-mediums"></table>
@@ -63,6 +64,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         cell.appendChild(trD);
                         
                         let connecte = jsonResponse.connecte;
+                        console.log("connecte =", connecte);
                         if (connecte === true) {
                             //troisième ligne = bouton prendre rdv
                             const trB = document.createElement("tr");
@@ -107,16 +109,20 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         );
                 console.log(jsonResponse);
                 if (jsonResponse) {
-                    console.log('Début de la consultation');
-                    let consultation = jsonResponse.consultation;
-                    let message = document.getElementById("message-rdv");
-                    if (consultation === true) {
-                        console.log("Création de la consultation réussie");
-                        message.textContent = "Votre demande de rendez-vous a bien été prise en compte. Veuillez attendre que le médium demandé soit disponible.";
-                    } else {
-                        console.log("La consultation n'a pas été créée");
-                        message.textContent = "Votre demande de rendez-vous a échouée. Veuillez réessayer ultérieurement.";
+                    let connecte = jsonResponse.connecte;
+                    if (connecte === true) {
+                        console.log('Début de la consultation');
+                        let consultation = jsonResponse.consultation;
+                        let message = document.getElementById("message-rdv");
+                        if (consultation === true) {
+                            console.log("Création de la consultation réussie");
+                            message.textContent = "Votre demande de rendez-vous a bien été prise en compte. Veuillez attendre que le médium demandé soit disponible.";
+                        } else {
+                            console.log("La consultation n'a pas été créée");
+                            message.textContent = "Votre demande de rendez-vous a échouée. Veuillez réessayer ultérieurement.";
+                        }
                     }
+                    
                     
                 }
             }

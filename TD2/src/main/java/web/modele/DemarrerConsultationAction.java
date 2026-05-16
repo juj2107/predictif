@@ -7,29 +7,30 @@ package web.modele;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import metier.modele.Client;
+import metier.modele.Consultation;
+import metier.modele.Employe;
 import metier.service.Service;
 
 /**
  *
  * @author jduprez
  */
-public class ConsulterProfilAstralAction extends Action {
+public class DemarrerConsultationAction extends Action{
 
-    public ConsulterProfilAstralAction() {
-    }
-    
     @Override
     public void execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
         String type = (String)session.getAttribute("type");
-        if (type.equals("client")) {
+        if ("employe".equals(type)) {
             Integer id = (Integer)session.getAttribute("userId");
-            Client client = Service.recupererClientParId(id);
-            request.setAttribute("profil",client.getProfilAstral());
-            request.setAttribute("prenom",client.getPrenom());
-            request.setAttribute("nom",client.getNom());
+            Employe employe = Service.recupererEmployeParId(id);
+            Consultation consultation = Service.recupererConsultationActuelleEmploye(employe);
+            Boolean estPret = Service.seMettrePret(employe);
+            request.setAttribute("consultation",consultation);
+            request.setAttribute("estPret",estPret);
         }
         
-        System.out.println("\n action afficher profil astral : " );
+        System.out.println("\n action démarrer consultation côté employé : " );
     }
+    
 }
