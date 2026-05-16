@@ -13,10 +13,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import web.modele.Action;
 import web.modele.ConnexionAction;
+import web.modele.ConsulterHistoriqueAction;
 import web.modele.ConsulterListeMediumsAction;
 import web.modele.ConsulterProfilAstralAction;
 import web.modele.InscriptionAction;
 import web.vue.ConnexionSerialisation;
+import web.vue.HistoriqueSerialisation;
 import web.vue.InscriptionSerialisation;
 import web.vue.ListeMediumSerialisation;
 import web.vue.ProfilAstralSerialisation;
@@ -65,6 +67,12 @@ public class ActionServlet extends HttpServlet {
             Action action = new InscriptionAction();
             action.execute(request);
             Serialisation serialisation = new InscriptionSerialisation();
+            serialisation.appliquer(request, response);
+        }
+        if (todo.equals("consulter-historique")) {
+            Action action = new ConsulterHistoriqueAction();
+            action.execute(request);
+            Serialisation serialisation = new HistoriqueSerialisation();
             serialisation.appliquer(request, response);
         }
         

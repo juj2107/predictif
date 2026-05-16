@@ -40,7 +40,7 @@ public class Predictif_scenario_camille {
         System.out.println(consultation.getClient().getProfilAstral());
         
         System.out.println("Historique des consultations du client :");
-        System.out.println(Service.recupererConsulationsClient(consultationClient));
+        System.out.println(Service.recupererConsultationsClient(consultationClient));
         System.out.println("Prédiction obtenue :");
         System.out.println(Service.obtenirPrediction(consultation.getClient(), 1, 2, 1));
         System.out.println("Camille se met prête :");

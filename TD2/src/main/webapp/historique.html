@@ -5,26 +5,23 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 -->
 <html>
     <head>
-        <title>Liste mediums</title>
+        <title>Historique consultations</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <h1>Liste mediums</h1>
-        <table id="liste-mediums"></table>
+        <h1>Historique des consultations</h1>
+        <h2>Mes consultations</h2>
+        <table id="historique"></table>
         <script>
             function initPage() {
                 console.log("Initialisation de la page");
-                listerMediums();
-                document.getElementById('bouton-rdv').addEventListener('click', function() {
-                    console.log("Click sur le bouton 'Prendre rdv'");
-                    commencerConsultation();
-                });
+                listerConsultations();
             };
             
-            async function listerMediums() {
-                console.log("Appel de l'Action: Consulter liste mediums");
-                let url = './ActionServlet?todo=consulter-liste-mediums'; // TODO : appeler l'ActionServlet pour lister les demandes
+            async function listerConsultations() {
+                console.log("Appel de l'Action: Consulter historique consultations");
+                let url = './ActionServlet?todo=consulter-historique';
                 let jsonResponse = await fetch(url)
                         .then(
                             function(httpResponse) {
@@ -39,16 +36,24 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         );
                 console.log(jsonResponse);
                 if (jsonResponse) {
-                    console.log('Affichage de la liste de mediums');
-                    // TODO : afficher les demandes
-                    let mediums = jsonResponse.mediums;
-                    const table = document.getElementById("liste-mediums");
-                    for (let medium of mediums) {
-                        console.log(medium.denomination, medium.genre, medium.presentation);
+                    console.log("Affichage de l'historique");
+                    let historique = jsonResponse.historique;
+                    const table = document.getElementById("historique");
+                    for (let consultation of historique) {
+                        console.log(consultation.medium, consultation.date);
                         const tr = document.createElement("tr");
+                        const thM = document.createElement("th");
+                        thM.textContent = "Médium :";
+                        tr.appendChild(thM);
                         const tdMedium = document.createElement("td");
-                        li.textContent = "Je suis " + medium.denomination +" : "+medium.genre+" et ma présentation :  "+medium.presentation;
-                        
+                        tdMedium.textContent = consultation.medium;
+                        tr.appendChild(tdMedium);
+                        const thD = document.createElement("th");
+                        thD.textContent = "Date :";
+                        tr.appendChild(thD);
+                        const tdDate = document.createElement("td");
+                        tdDate.textContent = consultation.date;
+                        tr.appendChild(tdDate);
                         table.appendChild(tr);
                     }
                     

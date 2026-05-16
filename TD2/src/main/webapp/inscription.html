@@ -125,7 +125,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 console.log(jsonResponse);
                 if (jsonResponse) {
                     let inscription = jsonResponse.inscription;
-                    if (inscription === false){
+                    if (inscription === "false"){
                         console.log("inscription a échoué");
                         let mess = document.getElementById("messageErreur");
                         mess.textContent = jsonResponse.message;

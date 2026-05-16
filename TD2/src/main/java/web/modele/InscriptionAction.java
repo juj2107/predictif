@@ -31,7 +31,7 @@ public class InscriptionAction extends Action {
             message = "Les mots de passe ne se correspondent pas. Veuillez réessayer.";
         }
         else if (inscription == false) {
-            message = "L'inscription a échoué. Veuillez réessayer ultérieurement.";
+            message = "L'inscription a échoué. Veuillez réessayer ultérieurement. Êtes-vous sûr de ne pas avoir de compte ? L'adresse mail est peut-être déjà utilisée.";
         }
         
         System.out.println("client " +client );

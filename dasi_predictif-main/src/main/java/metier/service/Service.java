@@ -162,7 +162,7 @@ public class Service {
         return clients;
     }
 
-    static public List<Consultation> recupererConsulationsClient(Client client) {
+    static public List<Consultation> recupererConsultationsClient(Client client) {
         List<Consultation> consultations = null;
         JpaUtil.creerContextePersistance();
         try {
