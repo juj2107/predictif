@@ -5,6 +5,9 @@
 package web.modele;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import metier.modele.Consultation;
+import metier.service.Service;
 
 /**
  *
@@ -17,7 +20,9 @@ public class CommencerConsultationAction extends Action {
 
     @Override
     public void execute(HttpServletRequest request) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        HttpSession session = request.getSession();
+        String type = (String)session.getAttribute("type");
+        Consultation consultation = Service.demanderConsultation(client, medium);
     }
     
     

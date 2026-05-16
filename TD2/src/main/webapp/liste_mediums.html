@@ -11,6 +11,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     </head>
     <body>
         <h1>Liste mediums</h1>
+        <div id="message-rdv"></div>
         <table id="liste-mediums"></table>
         <script>
             function initPage() {
@@ -72,6 +73,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         const boutonRdv = document.createElement("button");
                         boutonRdv.setAttribute("id","bouton-rdv");
                         boutonRdv.textContent = "Prendre rendez-vous";
+                        boutonRdv.dataset.idMedium=medium.id;
+                        
                         tdBouton.appendChild(boutonRdv);
                         trB.appendChild(tdBouton);
                         cell.appendChild(trB);
@@ -86,7 +89,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             
             async function commencerConsultation() {
                 console.log("Appel de l'Action: commencer consultation");
-                let url = './ActionServlet?todo=commencer-consultation'; // TODO : appeler l'ActionServlet pour lister les demandes
+                let bouton = event.target;
+                let idMedium = bouton.dataset.idMedium;
+                let url = './ActionServlet?todo=commencer-consultation'+'&medium='+encodeURIComponent(idMedium);
                 let jsonResponse = await fetch(url)
                         .then(
                             function(httpResponse) {
@@ -102,46 +107,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 console.log(jsonResponse);
                 if (jsonResponse) {
                     console.log('Début de la consultation');
-                    // TODO : afficher les demandes
-                    let mediums = jsonResponse.mediums;
-                    const table = document.getElementById("liste-mediums");
-                    for (let medium of mediums) {
-                        console.log(medium.denomination, medium.genre, medium.presentation);
-                        const cell = document.createElement("tr");
-                        
-                        //première ligne = nom + profession
-                        const trM = document.createElement("tr");
-                        const tdMedium = document.createElement("td");
-                        tdMedium.textContent = medium.denomination;
-                        trM.appendChild(tdMedium);
-                        const tdProfession = document.createElement("td");
-                        tdProfession.textContent = medium.profession;
-                        trM.appendChild(tdProfession);
-                        cell.appendChild(trM);
-                        
-                        //deuxième ligne = description
-                        const trD = document.createElement("tr");
-                        const tdDescription = document.createElement("td");
-                        tdDescription.setAttribute("colspan",2);
-                        tdDescription.textContent = medium.presentation;
-                        trD.appendChild(tdDescription);
-                        cell.appendChild(trD);
-                        
-                        //troisième ligne = bouton prendre rdv
-                        const trB = document.createElement("tr");
-                        const tdBouton = document.createElement("td");
-                        tdBouton.setAttribute("colspan",2);
-                        const boutonRdv = document.createElement("button");
-                        boutonRdv.setAttribute("id","bouton-rdv");
-                        boutonRdv.textContent = "Prendre rendez-vous";
-                        tdBouton.appendChild(boutonRdv);
-                        trB.appendChild(tdBouton);
-                        cell.appendChild(trB);
-                        
-                        table.appendChild(cell);
+                    let consultation = jsonResponse.consultation;
+                    if (consultation === "true") {
+                        console.log("Création de la consultation réussie");
+                        let message = document.getElementById("message-rdv");
+                        message.textContent = "Votre demande de rendez-vous a bien été prise en compte. Veuillez attendre que le médium demandé soit disponible.";
+                    } else {
+                        console.log("La consultation n'a pas été créée");
+                        let message = document.getElementById("message-rdv");
+                        message.textContent = "Votre demande de rendez-vous a échouée. Veuillez réessayer ultérieurement.";
                     }
-                    
-                    
                     
                 }
             }

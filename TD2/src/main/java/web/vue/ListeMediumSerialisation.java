@@ -36,6 +36,7 @@ public class ListeMediumSerialisation extends Serialisation {
             jsonMedium.add("denomination", medium.getDenomination());
             jsonMedium.add("genre", medium.getGenre());
             jsonMedium.add("presentation", medium.getPresentation());
+            jsonMedium.add("id", medium.getId().toString());
             String profession;
 
             if (medium instanceof Astrologue) {
