@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Inscription</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Inscription</h1>
+        <div id="messageErreur"></div>
+        <table>
+            <tr>
+                <th>
+                    <label for="nom">Nom :</label>
+                </th>
+                <td>
+                    <input type="text" id="nom" />
+                </td>
+                <th>
+                    <label for="telephone">Téléphone :</label>
+                </th>
+                <td>
+                    <input type="text" id="telephone" />
+                </td>
+            </tr>
+
+            <tr>
+                <th>
+                    <label for="prenom">Prenom :</label>
+                </th>
+                <td>
+                    <input type="text" id="prenom" />
+                </td>
+                <th>
+                    <label for="mail">Mail :</label>
+                </th>
+                <td>
+                    <input type="text" id="mail" />
+                </td>
+            </tr>
+            
+            <tr>
+                <th>
+                    <label for="dateNaissance">Date de naissance :</label>
+                </th>
+                <td>
+                    <input type="text" id="dateNaissance" />
+                </td>
+                <th>
+                    <label for="mdp">Mot de passe :</label>
+                </th>
+                <td>
+                    <input type="text" id="mdp" />
+                </td>
+            </tr>
+            
+            <tr>
+                <th>
+                    <label for="adresse">Adresse postale :</label>
+                </th>
+                <td>
+                    <input type="text" id="adresse" />
+                </td>
+                <th>
+                    <label for="cmdp">Confirmer mot de passe :</label>
+                </th>
+                <td>
+                    <input type="text" id="cmdp" />
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="4">
+                    <button id="bouton-valider">Inscription</button>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <script>
+            function initPage() {
+                console.log("Initialisation de la page");
+                document.getElementById('bouton-valider').addEventListener('click', function() {
+                    console.log("Click sur le bouton 'Inscription'");
+                    inscription();
+                });
+            };
+            
+            async function inscription() {
+                console.log("Appel de l'Action: Inscription");
+                let nom = document.getElementById("nom").value;
+                let prenom = document.getElementById("prenom").value;
+                let dateNaissance = document.getElementById("dateNaissance").value;
+                let adresse = document.getElementById("adresse").value;
+                let telephone = document.getElementById("telephone").value;
+                let mail = document.getElementById("mail").value;
+                let mdp = document.getElementById("mdp").value;
+                let cmdp = document.getElementById("cmdp").value;
+                let url = './ActionServlet?todo=inscription'
+                        +'&nom='+encodeURIComponent(nom)
+                        +'&prenom='+encodeURIComponent(prenom)
+                        +'&date='+encodeURIComponent(dateNaissance)
+                        +'&adresse='+encodeURIComponent(adresse)
+                        +'&tel='+encodeURIComponent(telephone)
+                        +'&mail='+encodeURIComponent(mail)
+                        +'&mdp='+encodeURIComponent(mdp)
+                        +'&cmdp='+encodeURIComponent(cmdp);
+                
+                let jsonResponse = await fetch(url)
+                        .then(
+                            function(httpResponse) {
+                                return httpResponse.json();
+                            }
+                        )
+                        .catch(
+                            function(error) {
+                                console.log(error);
+                                return null;
+                            }
+                        );
+                console.log(jsonResponse);
+                if (jsonResponse) {
+                    let inscription = jsonResponse.inscription;
+                    if (inscription === false){
+                        console.log("inscription a échoué");
+                        let mess = document.getElementById("messageErreur");
+                        mess.textContent = jsonResponse.message;
+                    }else{
+                        console.log('inscription réussie');
+                        window.location.href = "./connexion.html";
+                    }
+                    
+                    
+                    
+                    
+                }
+            }
+            window.onload = initPage;
+        </script>
+    </body>
+</html>

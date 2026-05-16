@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Profil astral</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Mon profil astral</h1>
+        <h2 id="bienvenue"></h2>
+        <table id="table"></table>
+        
+        <script>
+            function initPage() {
+                console.log("Initialisation de la page");
+                afficherProfil();
+            };
+            
+            async function afficherProfil() {
+                console.log("Appel de l'Action: afficher le profil");
+                let url = './ActionServlet?todo=afficher-profil'; // TODO : appeler l'ActionServlet pour lister les demandes
+                let jsonResponse = await fetch(url)
+                        .then(
+                            function(httpResponse) {
+                                return httpResponse.json();
+                            }
+                        )
+                        .catch(
+                            function(error) {
+                                console.log(error);
+                                return null;
+                            }
+                        );
+                console.log(jsonResponse);
+                if (jsonResponse) {
+                    console.log('Affichage du profil');
+                    
+                    let signeZ = jsonResponse.signeZ;
+                    let signeC = jsonResponse.signeC;
+                    let couleur = jsonResponse.couleur;
+                    let animal = jsonResponse.animal;
+                    let prenom = jsonResponse.prenom;
+                    
+                    let messBienvenue = document.getElementById("bienvenue");
+                    messBienvenue.textContent = "Bienvenue "+prenom+" !";
+                            
+                    const table = document.getElementById("table");
+                    let row1 = table.insertRow();
+                    let cellNom = row1.insertCell(0);
+                    let cellContenu = row1.insertCell(1);
+                    cellNom.innerHTML = "Signe du zodiaque :";
+                    cellContenu.innerHTML = signeZ;
+                    let row2 = table.insertRow();
+                    cellNom = row2.insertCell(0);
+                    cellContenu = row2.insertCell(1);
+                    cellNom.innerHTML = "Signe chinois :";
+                    cellContenu.innerHTML = signeC;
+                    let row3 = table.insertRow();
+                    cellNom = row3.insertCell(0);
+                    cellContenu = row3.insertCell(1);
+                    cellNom.innerHTML = "Couleur :";
+                    cellContenu.innerHTML = couleur;
+                    let row4 = table.insertRow();
+                    cellNom = row4.insertCell(0);
+                    cellContenu = row4.insertCell(1);
+                    cellNom.innerHTML = "Animal totem :";
+                    cellContenu.innerHTML = animal;                    
+                    
+                    
+                    
+                }
+            }
+            window.onload = initPage;
+        </script>
+    </body>
+</html>

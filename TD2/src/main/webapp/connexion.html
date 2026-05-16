@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Connexion</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Connexion</h1>
+        <table>
+            <tr>
+                <th>
+                    <label for="login">Identifiant</label>
+                </th>
+                <td>
+                    <input type="text" id="login" name="login" size="20" />
+                </td>
+            </tr>
+
+            <tr>
+                <th>
+                    <label for="password">Mot de passe</label>
+                </th>
+                <td>
+                    <input type="password" id="password" name="password" size="20" />
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <button id="bouton-connexion">Connexion</button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <a href="./inscription.html"> Pas encore de compte ? </a>
+                </td>
+            </tr>
+        </table>
+
+        
+        <script>
+            function initPage() {
+                console.log("Initialisation de la page");
+                document.getElementById('bouton-connexion').addEventListener('click', function() {
+                    console.log("Click sur le bouton 'Connexion'");
+                    connexion();
+                });
+            };
+            
+            async function connexion() {
+                console.log("Appel de l'Action: Connexion");
+                let login = document.getElementById("login").value;
+                let password = document.getElementById("password").value;
+                let url = './ActionServlet?todo=connexion'+'&login='+encodeURIComponent(login)+'&password='+encodeURIComponent(password); // TODO : appeler l'ActionServlet pour lister les demandes
+                let jsonResponse = await fetch(url)
+                        .then(
+                            function(httpResponse) {
+                                return httpResponse.json();
+                            }
+                        )
+                        .catch(
+                            function(error) {
+                                console.log(error);
+                                return null;
+                            }
+                        );
+                console.log(jsonResponse);
+                if (jsonResponse) {
+                    let connexion  = jsonResponse.connexion;
+                    if (connexion === false){
+                        console.log("reessayer avec un autre mdp");
+                    }else{
+                        console.log('Affichage de identifiant');
+                        let identifiant = jsonResponse.id;
+                        console.log(identifiant);
+                        if (jsonResponse.type === "client") {
+                            window.location.href = "./profil.html";
+                        }
+                        else {
+                            window.location.href = "./index.html";
+                        }
+                    }
+                    
+                    
+                    
+                    
+                }
+            }
+            window.onload = initPage;
+        </script>
+    </body>
+</html>
