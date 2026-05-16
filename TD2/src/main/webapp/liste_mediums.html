@@ -17,10 +17,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             function initPage() {
                 console.log("Initialisation de la page");
                 listerMediums();
-                document.getElementById('bouton-rdv').addEventListener('click', function() {
-                    console.log("Click sur le bouton 'Prendre rdv'");
-                    commencerConsultation();
-                });
             };
             
             async function listerMediums() {
@@ -66,18 +62,23 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         trD.appendChild(tdDescription);
                         cell.appendChild(trD);
                         
-                        //troisième ligne = bouton prendre rdv
-                        const trB = document.createElement("tr");
-                        const tdBouton = document.createElement("td");
-                        tdBouton.setAttribute("colspan",2);
-                        const boutonRdv = document.createElement("button");
-                        boutonRdv.setAttribute("id","bouton-rdv");
-                        boutonRdv.textContent = "Prendre rendez-vous";
-                        boutonRdv.dataset.idMedium=medium.id;
+                        let connecte = jsonResponse.connecte;
+                        if (connecte === true) {
+                            //troisième ligne = bouton prendre rdv
+                            const trB = document.createElement("tr");
+                            const tdBouton = document.createElement("td");
+                            tdBouton.setAttribute("colspan",2);
+                            const boutonRdv = document.createElement("button");
+                            boutonRdv.textContent = "Prendre rendez-vous";
+                            boutonRdv.dataset.idMedium=medium.id;
+                            boutonRdv.addEventListener("click",commencerConsultation);
+
+                            tdBouton.appendChild(boutonRdv);
+                            trB.appendChild(tdBouton);
+                            cell.appendChild(trB);
+                        }
                         
-                        tdBouton.appendChild(boutonRdv);
-                        trB.appendChild(tdBouton);
-                        cell.appendChild(trB);
+                        
                         
                         table.appendChild(cell);
                     }
@@ -87,7 +88,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 }
             }
             
-            async function commencerConsultation() {
+            async function commencerConsultation(event) {
                 console.log("Appel de l'Action: commencer consultation");
                 let bouton = event.target;
                 let idMedium = bouton.dataset.idMedium;
@@ -108,13 +109,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 if (jsonResponse) {
                     console.log('Début de la consultation');
                     let consultation = jsonResponse.consultation;
-                    if (consultation === "true") {
+                    let message = document.getElementById("message-rdv");
+                    if (consultation === true) {
                         console.log("Création de la consultation réussie");
-                        let message = document.getElementById("message-rdv");
                         message.textContent = "Votre demande de rendez-vous a bien été prise en compte. Veuillez attendre que le médium demandé soit disponible.";
                     } else {
                         console.log("La consultation n'a pas été créée");
-                        let message = document.getElementById("message-rdv");
                         message.textContent = "Votre demande de rendez-vous a échouée. Veuillez réessayer ultérieurement.";
                     }
                     
