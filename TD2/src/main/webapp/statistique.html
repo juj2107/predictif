@@ -5,11 +5,162 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Statistique</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>TODO write content</div>
+        <h1>PREDICT'IF</h1>
+        <div id="conteneur-tableaux"> <!-- pour css, pour mettre les 2 tableaux à côté-->
+            
+            <table id="mediums">
+                <tr>
+                    <td colspan="3">Top 5 Mediums</td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td>Nom Prenom</td>
+                    <td>Nombre consultations </td>
+                </tr>                  
+            </table>
+            
+            <table id="graphe">
+                <tr>                    
+                    <td>Nombre consultations/médium:</td>
+                    <td id="nombre"></td>
+                </tr>
+                <tr>
+                    <td colspan = "2">Répartition Clients par Employés:</td>
+                </tr>
+                <tr>
+                    <td colspan = "2"> <div id="Graph" class="chart"></div> </td>
+                </tr>
+            </table>
+           
+            
+            <table id="pigeons">
+                <tr>
+                    <td colspan="3">Top 5 Pigeons Clients</td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td>Nom Prenom</td>
+                    <td>Nombre consultations </td>
+                </tr>                  
+            </table>
+        </div>
+        
+        <script>
+            function initPage() {
+                console.log("Initialisation de la page");
+                visualiserTopMediums();
+                visualiserChart();
+                visualiserTopClient();
+            };
+            
+            
+            
+            async function visualiserTopMediums() {
+                console.log("Appel de l'Action : visualiser medium");
+                let url = './ActionServlet?todo=visualiser-medium';
+                let jsonResponse = await fetch(url)
+                        .then(
+                            function(httpResponse) {
+                                return httpResponse.json();
+                            }
+                        )
+                        .catch(
+                            function(error) {
+                                console.log(error);
+                                return null;
+                            }
+                        );
+                console.log(jsonResponse);
+                if (jsonResponse) {
+                    console.log("Affichage top 5 mediums");                    
+                    
+                    let nom = jsonResponse.nomClient;
+                    let prenom = jsonResponse.prenomClient;
+                    let client = document.getElementById("nom-client");
+                    client.textContent = "Ma consultation avec "+prenom+" "+nom;
+                    
+                }
+            }
+            
+            async function terminerConsultation() {
+                console.log("Appel de l'Action : terminer consultation");
+                let param = {
+                    commentaire: document.getElementById("commentaire").value
+                };
+                let options = {method:"POST", body: new URLSearchParams(param)};
+                let url = './ActionServlet?todo=terminer-consultation'; 
+                
+                let jsonResponse = await fetch(url,options)
+                        .then(
+                            function(httpResponse) {
+                                return httpResponse.json();
+                            }
+                        )
+                        .catch(
+                            function(error) {
+                                console.log(error);
+                                return null;
+                            }
+                        );
+                console.log(jsonResponse);
+                if (jsonResponse) {
+                    let reussite = jsonResponse.fini;
+                    if (reussite) {
+                        console.log("Consultation terminée par l'employé");
+                        window.location.href = "./index.html";
+                    }
+                    else {
+                        console.log("Échec de fin de la consulation");
+                    }
+                    
+                }
+            }
+            async function fairePrediction() {
+                console.log("Appel de l'Action : faire prediction");
+                let boutonAmour = document.querySelector("input[name=amour]:checked").value;
+                let boutonSante = document.querySelector("input[name=sante]:checked").value;
+                let boutonTravail = document.querySelector("input[name=travail]:checked").value;
+                let params = {
+                    amour : boutonAmour,
+                    sante : boutonSante,
+                    travail : boutonTravail
+                };
+                let options = {method:"POST", body: new URLSearchParams(params)};
+                let url = './ActionServlet?todo=faire-prediction';
+                let jsonResponse = await fetch(url,options)
+                        .then(
+                            function(httpResponse) {
+                                return httpResponse.json();
+                            }
+                        )
+                        .catch(
+                            function(error) {
+                                console.log(error);
+                                return null;
+                            }
+                        );
+                console.log(jsonResponse);
+                if (jsonResponse) {
+                    console.log("Affichage de la prediction");
+                    let predictions = jsonResponse.predictions;
+                    console.log(predictions);
+                    let mess = document.getElementById("texte-prediction");
+                    let text = "";
+                    for (let prediction of predictions) {
+                        text = text + prediction.prediction;
+                    }
+                    mess.textContent = text + " ";
+                    
+                    
+                    
+                }
+            }
+            window.onload = initPage;
+        </script>
     </body>
 </html>
