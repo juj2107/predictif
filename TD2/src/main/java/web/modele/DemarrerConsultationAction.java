@@ -25,9 +25,11 @@ public class DemarrerConsultationAction extends Action{
             Integer id = (Integer)session.getAttribute("userId");
             Employe employe = Service.recupererEmployeParId(id);
             Consultation consultation = Service.recupererConsultationActuelleEmploye(employe);
+            Client client = consultation.getClient();
             Boolean estPret = Service.seMettrePret(employe);
             request.setAttribute("consultation",consultation);
             request.setAttribute("estPret",estPret);
+            request.setAttribute("client",client);
         }
         
         System.out.println("\n action démarrer consultation côté employé : " );

@@ -5,32 +5,44 @@
 package web.vue;
 
 import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.util.List;
+import metier.modele.Astrologue;
+import metier.modele.Cartomancier;
 import metier.modele.Client;
 import metier.modele.Consultation;
+import metier.modele.Medium;
 
 /**
  *
  * @author jduprez
  */
-public class ConsultationSerialisation extends Serialisation {
+public class PredictionSerialisation extends Serialisation{
 
     @Override
     public void appliquer(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Consultation consultation = (Consultation) request.getAttribute("consultation");
-        Boolean estPret = (Boolean) request.getAttribute("estPret");
         Client client = (Client) request.getAttribute("client");
-        
-        System.out.println("serialisation "+ consultation);
+        List<String> predictions = (List<String>) request.getAttribute("predictions");
+        System.out.println("serialisation "+ client);
         JsonObjectBuilder jsonContainer = Json.createObjectBuilder();
-        jsonContainer.add("medium", consultation.getMedium().getDenomination());
-        jsonContainer.add("estPret", estPret);
-        jsonContainer.add("nomClient",client.getNom());
-        jsonContainer.add("prenomClient",client.getPrenom());
+        JsonArrayBuilder jsonListePredictions = Json.createArrayBuilder();
+
+        for (String prediction : predictions) {
+            JsonObjectBuilder jsonPrediction = Json.createObjectBuilder();
+            jsonPrediction.add("prediction", prediction);
+
+            jsonListePredictions.add(jsonPrediction);
+        }
+        jsonContainer.add("predictions", jsonListePredictions);
+        jsonContainer.add("nomClient", client.getNom());
+        jsonContainer.add("prenomClient", client.getPrenom());
+        
         
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

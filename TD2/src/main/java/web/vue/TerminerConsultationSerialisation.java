@@ -10,28 +10,27 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import metier.modele.Client;
 import metier.modele.Consultation;
 
 /**
  *
  * @author jduprez
  */
-public class ConsultationSerialisation extends Serialisation {
+public class TerminerConsultationSerialisation extends Serialisation{
 
     @Override
     public void appliquer(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Consultation consultation = (Consultation) request.getAttribute("consultation");
-        Boolean estPret = (Boolean) request.getAttribute("estPret");
-        Client client = (Client) request.getAttribute("client");
-        
+        Boolean fini = (Boolean) request.getAttribute("fini");
         System.out.println("serialisation "+ consultation);
         JsonObjectBuilder jsonContainer = Json.createObjectBuilder();
-        jsonContainer.add("medium", consultation.getMedium().getDenomination());
-        jsonContainer.add("estPret", estPret);
-        jsonContainer.add("nomClient",client.getNom());
-        jsonContainer.add("prenomClient",client.getPrenom());
+        if (fini == true) {
+            jsonContainer.add("fini",true);
+        } else {
+            jsonContainer.add("fini",false);
+        }
         
+
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();

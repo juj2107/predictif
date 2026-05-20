@@ -10,6 +10,173 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>TODO write content</div>
+        <a href="./index.html"> Accueil </a>
+        <h1 id="nom-client"></h1>
+        
+        <div id="conteneur-tableaux"> <!-- pour css, pour mettre les 2 tableaux à côté-->
+            <table>
+                <tr>
+                    <td colspan="5">Faire une prédiction</td>
+                </tr>
+                <tr>
+                    <td><input type="radio" name="amour" value="1">1</td>
+                    <td><input type="radio" name="amour" value="2">2</td>
+                    <td><input type="radio" name="amour" value="3">3</td>
+                    <td><input type="radio" name="amour" value="4">4</td>
+                    <td rowspan="4"><div id="texte-prediction"></div></td>
+                </tr>
+                <tr>
+                    <td><input type="radio" name="sante" value="1">1</td>
+                    <td><input type="radio" name="sante" value="2">2</td>
+                    <td><input type="radio" name="sante" value="3">3</td>
+                    <td><input type="radio" name="sante" value="4">4</td>
+                </tr>
+                <tr>
+                    <td><input type="radio" name="travail" value="1">1</td>
+                    <td><input type="radio" name="travail" value="2">2</td>
+                    <td><input type="radio" name="travail" value="3">3</td>
+                    <td><input type="radio" name="travail" value="4">4</td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <button id="bouton-prediction">Faire la prédiction</button>
+                    </td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td>Commentaire</td>
+                </tr>
+                <tr>
+                    <td>décrivez votre ressenti du client sur cette consultation:</td>
+                </tr>
+                <tr>
+                    <td><input id="commentaire"/></td>
+                </tr>
+            </table>
+        </div>
+        
+        <button id="terminer">Terminer la consultation</button>
+        
+        
+        <script>
+            function initPage() {
+                console.log("Initialisation de la page");
+                
+                recupererConsultation();
+                document.getElementById('terminer').addEventListener('click', function() {
+                    console.log("Click sur le bouton 'terminer consultation'");
+                    terminerConsultation();
+                });
+                document.getElementById('bouton-prediction').addEventListener('click', function() {
+                    console.log("Click sur le bouton 'faire prediction'");
+                    fairePrediction();
+                });
+            };
+            
+            
+            
+            async function recupererConsultation() {
+                console.log("Appel de l'Action : récupérer consultation");
+                let url = './ActionServlet?todo=recuperer-consultation';
+                let jsonResponse = await fetch(url)
+                        .then(
+                            function(httpResponse) {
+                                return httpResponse.json();
+                            }
+                        )
+                        .catch(
+                            function(error) {
+                                console.log(error);
+                                return null;
+                            }
+                        );
+                console.log(jsonResponse);
+                if (jsonResponse) {
+                    console.log("Affichage du nom du client");                    
+                    
+                    let nom = jsonResponse.nomClient;
+                    let prenom = jsonResponse.prenomClient;
+                    let client = document.getElementById("nom-client");
+                    client.textContent = "Ma consultation avec "+prenom+" "+nom;
+                    
+                }
+            }
+            
+            async function terminerConsultation() {
+                console.log("Appel de l'Action : terminer consultation");
+                let param = {
+                    commentaire: document.getElementById("commentaire").value
+                };
+                let options = {method:"POST", body: new URLSearchParams(param)};
+                let url = './ActionServlet?todo=terminer-consultation'; 
+                
+                let jsonResponse = await fetch(url,options)
+                        .then(
+                            function(httpResponse) {
+                                return httpResponse.json();
+                            }
+                        )
+                        .catch(
+                            function(error) {
+                                console.log(error);
+                                return null;
+                            }
+                        );
+                console.log(jsonResponse);
+                if (jsonResponse) {
+                    let reussite = jsonResponse.fini;
+                    if (reussite) {
+                        console.log("Consultation terminée par l'employé");
+                        window.location.href = "./index.html";
+                    }
+                    else {
+                        console.log("Échec de fin de la consulation");
+                    }
+                    
+                }
+            }
+            async function fairePrediction() {
+                console.log("Appel de l'Action : faire prediction");
+                let boutonAmour = document.querySelector("input[name=amour]:checked").value;
+                let boutonSante = document.querySelector("input[name=sante]:checked").value;
+                let boutonTravail = document.querySelector("input[name=travail]:checked").value;
+                let params = {
+                    amour : boutonAmour,
+                    sante : boutonSante,
+                    travail : boutonTravail
+                };
+                let options = {method:"POST", body: new URLSearchParams(params)};
+                let url = './ActionServlet?todo=faire-prediction';
+                let jsonResponse = await fetch(url,options)
+                        .then(
+                            function(httpResponse) {
+                                return httpResponse.json();
+                            }
+                        )
+                        .catch(
+                            function(error) {
+                                console.log(error);
+                                return null;
+                            }
+                        );
+                console.log(jsonResponse);
+                if (jsonResponse) {
+                    console.log("Affichage de la prediction");
+                    let predictions = jsonResponse.predictions;
+                    console.log(predictions);
+                    let mess = document.getElementById("texte-prediction");
+                    let text = "";
+                    for (let prediction of predictions) {
+                        text = text + prediction.prediction;
+                    }
+                    mess.textContent = text + " ";
+                    
+                    
+                    
+                }
+            }
+            window.onload = initPage;
+        </script>
     </body>
 </html>

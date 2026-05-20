@@ -6,7 +6,6 @@ package web.modele;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import metier.modele.Client;
 import metier.modele.Consultation;
 import metier.modele.Employe;
 import metier.service.Service;
@@ -15,22 +14,22 @@ import metier.service.Service;
  *
  * @author jduprez
  */
-public class RecupererConsultationAction extends Action {
-
+public class TerminerConsultationAction extends Action {
     @Override
     public void execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
+        String commentaire = request.getParameter("commentaire");
         String type = (String)session.getAttribute("type");
         if ("employe".equals(type)) {
             Integer id = (Integer)session.getAttribute("userId");
             Employe employe = Service.recupererEmployeParId(id);
             Consultation consultation = Service.recupererConsultationActuelleEmploye(employe);
-            request.setAttribute("client", consultation.getClient());
+            boolean fini = Service.terminerConsultation(consultation,commentaire);         
             request.setAttribute("consultation",consultation);
-            request.setAttribute("estPret",false);
+            request.setAttribute("fini",fini);
         }
         
-        System.out.println("\n action récupérer consultation de l'employé connecté : " );
+        System.out.println("\n action terminer consultation " );
     }
     
 }

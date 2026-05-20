@@ -21,8 +21,10 @@ import web.modele.ConsulterListeMediumsAction;
 import web.modele.ConsulterProfilAstralAction;
 import web.modele.DeconnexionAction;
 import web.modele.DemarrerConsultationAction;
+import web.modele.FairePredictionAction;
 import web.modele.InscriptionAction;
 import web.modele.RecupererConsultationAction;
+import web.modele.TerminerConsultationAction;
 import web.modele.VerifierConnexionAction;
 import web.vue.CommencerConsultationSerialisation;
 import web.vue.ConnexionSerialisation;
@@ -31,8 +33,10 @@ import web.vue.DeconnexionSerialisation;
 import web.vue.HistoriqueSerialisation;
 import web.vue.InscriptionSerialisation;
 import web.vue.ListeMediumSerialisation;
+import web.vue.PredictionSerialisation;
 import web.vue.ProfilAstralSerialisation;
 import web.vue.Serialisation;
+import web.vue.TerminerConsultationSerialisation;
 
 /**
  *
@@ -127,6 +131,19 @@ public class ActionServlet extends HttpServlet {
             Serialisation serialisation = new DeconnexionSerialisation();
             serialisation.appliquer(request, response);
         }
+        if (todo.equals("terminer-consultation")) {
+            Action action = new TerminerConsultationAction();
+            action.execute(request);
+            Serialisation serialisation = new TerminerConsultationSerialisation();
+            serialisation.appliquer(request, response);
+        }
+        if (todo.equals("faire-prediction")) {
+            Action action = new FairePredictionAction();
+            action.execute(request);
+            Serialisation serialisation = new PredictionSerialisation();
+            serialisation.appliquer(request, response);
+        }
+        
         
         
         
