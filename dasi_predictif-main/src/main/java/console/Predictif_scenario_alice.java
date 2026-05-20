@@ -7,6 +7,7 @@ import dao.JpaUtil;
 import java.time.LocalDate;
 import metier.modele.Client;
 import metier.modele.Consultation;
+import metier.modele.Employe;
 import metier.service.Service;
 import metier.service.ServiceInitialisation;
 
@@ -19,6 +20,9 @@ public class Predictif_scenario_alice {
     public static void main(String[] args) {
 
         JpaUtil.creerFabriquePersistance();
+    
+//        Employe test = Service.authentifierEmploye("yg2@gmail.fr","123");
+//        System.out.print(test);
         ServiceInitialisation.initialiserClient();
         ServiceInitialisation.initialiserEmploye();
         ServiceInitialisation.initialiserMedium();

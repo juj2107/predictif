@@ -9,6 +9,7 @@
         <div id="lien-connexion"></div>
         <div id="lien-mediums"></div>
         <div id="lien-consultation"></div>
+        <div id="lien-deconnexion"></div>
         
         <script>
             async function verifierConnexion() {
@@ -39,6 +40,14 @@
                         lien.textContent = "Mediums";
                         document.getElementById("lien-mediums").appendChild(lien);
                     }
+                    let bouton = document.createElement("button");
+                    bouton.textContent = "Deconnexion";
+                    bouton.setAttribute("id","bouton-deconnexion");
+                    document.getElementById("lien-deconnexion").appendChild(bouton);
+                    document.getElementById('bouton-deconnexion').addEventListener('click', function() {
+                        console.log("Click sur le bouton 'Deconnexion'");
+                        deconnexion();
+                    });
                 }
                 else {
                     let lienC = document.createElement("a");
@@ -50,6 +59,38 @@
                     lienM.href="./liste_mediums.html";
                     lienM.textContent = "Mediums";
                     document.getElementById("lien-mediums").appendChild(lienM);
+                }
+        }
+        
+        async function deconnexion() {
+            console.log("Appel de l'Action: Deconnexion");
+                let url = './ActionServlet?todo=deconnexion';
+                let jsonResponse = await fetch(url)
+                        .then(
+                            function(httpResponse) {
+                                return httpResponse.json();
+                            }
+                        )
+                        .catch(
+                            function(error) {
+                                console.log(error);
+                                return null;
+                            }
+                        );
+                console.log(jsonResponse);
+                if (jsonResponse) {
+                    let deconnexion  = jsonResponse.deconnexion;
+                    if (deconnexion === false){
+                        console.log("deconnexion a échoué");
+                    }else{
+                        console.log("deconnexion ok");
+                        window.location.href = "./index.html";
+                        verifierConnexion();
+                    }
+                    
+                    
+                    
+                    
                 }
         }
 

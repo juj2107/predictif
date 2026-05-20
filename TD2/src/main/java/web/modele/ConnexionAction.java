@@ -29,6 +29,7 @@ public class ConnexionAction extends Action {
         }
         else{
             Employe employe = Service.authentifierEmploye(request.getParameter("login"),request.getParameter("password"));
+            System.out.println("employe " +employe );
             if(employe != null){
                 request.setAttribute("type","employe");
                 request.setAttribute("id",employe.getId());

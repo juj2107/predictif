@@ -23,16 +23,18 @@ public class InscriptionAction extends Action {
         String mdp = request.getParameter("mdp");
         String cmdp = request.getParameter("cmdp");
         Client client = new Client(request.getParameter("nom"), request.getParameter("prenom"), request.getParameter("adresse"), request.getParameter("mail"), mdp, request.getParameter("tel"), date);
-        Boolean inscription = Service.inscrireClient(client);
-        
+        Boolean inscription = Service.inscrireClient(client); //si adresse pas format adresse marche pas
+        System.out.println("inscription " +inscription );
         String message="";
+        
+        if (inscription == false) {
+            message = "L'inscription a échoué. Veuillez réessayer ultérieurement. Êtes-vous sûr de ne pas avoir de compte ? L'adresse mail est peut-être déjà utilisée.";
+        }
         if (!mdp.equals(cmdp)) {
             inscription = false;
             message = "Les mots de passe ne se correspondent pas. Veuillez réessayer.";
         }
-        else if (inscription == false) {
-            message = "L'inscription a échoué. Veuillez réessayer ultérieurement. Êtes-vous sûr de ne pas avoir de compte ? L'adresse mail est peut-être déjà utilisée.";
-        }
+        
         
         System.out.println("client " +client );
         

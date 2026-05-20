@@ -19,6 +19,7 @@ import web.modele.ConnexionAction;
 import web.modele.ConsulterHistoriqueAction;
 import web.modele.ConsulterListeMediumsAction;
 import web.modele.ConsulterProfilAstralAction;
+import web.modele.DeconnexionAction;
 import web.modele.DemarrerConsultationAction;
 import web.modele.InscriptionAction;
 import web.modele.RecupererConsultationAction;
@@ -26,6 +27,7 @@ import web.modele.VerifierConnexionAction;
 import web.vue.CommencerConsultationSerialisation;
 import web.vue.ConnexionSerialisation;
 import web.vue.ConsultationSerialisation;
+import web.vue.DeconnexionSerialisation;
 import web.vue.HistoriqueSerialisation;
 import web.vue.InscriptionSerialisation;
 import web.vue.ListeMediumSerialisation;
@@ -117,6 +119,12 @@ public class ActionServlet extends HttpServlet {
             Action action = new VerifierConnexionAction();
             action.execute(request);
             Serialisation serialisation = new ConnexionSerialisation();
+            serialisation.appliquer(request, response);
+        }
+        if (todo.equals("deconnexion")) {
+            Action action = new DeconnexionAction();
+            action.execute(request);
+            Serialisation serialisation = new DeconnexionSerialisation();
             serialisation.appliquer(request, response);
         }
         
