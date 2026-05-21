@@ -10,17 +10,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <h1>PREDICT'IF</h1>
-        <div id="conteneur-tableaux"> <!-- pour css, pour mettre les 2 tableaux à côté-->
+        <a href="./index.html">Accueil</a>
+        <h1>PREDICT'IF - Statistiques</h1>
+        <div id="conteneur-tableaux">
             
             <table id="mediums">
                 <tr>
                     <td colspan="3">Top 5 Mediums</td>
                 </tr>
                 <tr>
-                    <td> </td>
+                    <td></td>
                     <td>Nom Prenom</td>
-                    <td>Nombre consultations </td>
+                    <td>Nombre consultations</td>
                 </tr>                  
             </table>
             
@@ -30,7 +31,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
                     <td id="nombre"></td>
                 </tr>
                 <tr>
-                    <td colspan = "2">Répartition Clients par Employés:</td>
+                    <td colspan="2">Répartition Clients par Employés:</td>
                 </tr>
                 <tr>
                     <td colspan = "2"> <div id="Graph" class="chart"></div> </td>
@@ -53,16 +54,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
         <script>
             function initPage() {
                 console.log("Initialisation de la page");
-                visualiserTopMediums();
-                visualiserChart();
-                visualiserTopClient();
+                visualiserStatistiques();
             };
             
-            
-            
-            async function visualiserTopMediums() {
-                console.log("Appel de l'Action : visualiser medium");
-                let url = './ActionServlet?todo=visualiser-top-mediums';
+            async function visualiserStatistiques() {
+                console.log("Appel de l'Action : visualiser statistiques");
+                let url = './ActionServlet?todo=visualiser-statistiques';
                 let jsonResponse = await fetch(url)
                         .then(
                             function(httpResponse) {
@@ -77,108 +74,52 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
                         );
                 console.log(jsonResponse);
                 if (jsonResponse) {
-                    console.log("Affichage top 5 mediums");    
+                    console.log("Affichage des statistiques");
+                    
+                    // Affichage Top 5 Mediums
                     let mediums = jsonResponse.mediums;
-                    console.log(mediums); 
-                    console.log(mediums.length);
-                    
-                    let table = document.getElementById("mediums");
-                    
+                    console.log(mediums);
+                    let tableMediums = document.getElementById("mediums");
                     for (let medium of mediums) {
-                        let row = document.createElement("tr");
-                        let tdImage = document.createElement("td");
-                        let image = document.createElement("img");
-                        image.src = "images/profil.png";
-                        image.alt = "Logo profil";
-                        image.width = 20;
-                        tdImage.appendChild(image);
-                        row.appendChild(tdImage);
+                        let row = document.createElement("tr");                        
                         let tdMedium = document.createElement("td");
                         tdMedium.textContent = medium.denomination;
                         row.appendChild(tdMedium);
                         let tdNbConsultations = document.createElement("td");
                         tdNbConsultations.textContent = medium.nbConsultations;
                         row.appendChild(tdNbConsultations);
-                        table.appendChild(row);
+                        tableMediums.appendChild(row);
                     }
                     
+                    // Affichage nombre total consultations
+                    let totalConsultations = jsonResponse.totalConsultations;
+                    document.getElementById("nombre").textContent = totalConsultations;
                     
+                    // Affichage distribution employés
+                    let employes = jsonResponse.employes;
+                    console.log(employes);
+                    let tableEmployes = document.getElementById("employes");
+                    for (let employe of employes) {
+                        
+                    }
+                    
+                    // Affichage Top 5 Clients
+                    let clients = jsonResponse.clients;
+                    console.log(clients);
+                    let tableClients = document.getElementById("pigeons");
+                    for (let client of clients) {
+                        let row = document.createElement("tr");                       
+                        let tdClient = document.createElement("td");
+                        tdClient.textContent = client.prenom + " " + client.nom;
+                        row.appendChild(tdClient);
+                        let tdNbConsultationsClient = document.createElement("td");
+                        tdNbConsultationsClient.textContent = client.nbConsultations;
+                        row.appendChild(tdNbConsultationsClient);
+                        tableClients.appendChild(row);
+                    }
                 }
             }
-            
-            async function terminerConsultation() {
-                console.log("Appel de l'Action : terminer consultation");
-                let param = {
-                    commentaire: document.getElementById("commentaire").value
-                };
-                let options = {method:"POST", body: new URLSearchParams(param)};
-                let url = './ActionServlet?todo=terminer-consultation'; 
-                
-                let jsonResponse = await fetch(url,options)
-                        .then(
-                            function(httpResponse) {
-                                return httpResponse.json();
-                            }
-                        )
-                        .catch(
-                            function(error) {
-                                console.log(error);
-                                return null;
-                            }
-                        );
-                console.log(jsonResponse);
-                if (jsonResponse) {
-                    let reussite = jsonResponse.fini;
-                    if (reussite) {
-                        console.log("Consultation terminée par l'employé");
-                        window.location.href = "./index.html";
-                    }
-                    else {
-                        console.log("Échec de fin de la consulation");
-                    }
-                    
-                }
-            }
-            async function fairePrediction() {
-                console.log("Appel de l'Action : faire prediction");
-                let boutonAmour = document.querySelector("input[name=amour]:checked").value;
-                let boutonSante = document.querySelector("input[name=sante]:checked").value;
-                let boutonTravail = document.querySelector("input[name=travail]:checked").value;
-                let params = {
-                    amour : boutonAmour,
-                    sante : boutonSante,
-                    travail : boutonTravail
-                };
-                let options = {method:"POST", body: new URLSearchParams(params)};
-                let url = './ActionServlet?todo=faire-prediction';
-                let jsonResponse = await fetch(url,options)
-                        .then(
-                            function(httpResponse) {
-                                return httpResponse.json();
-                            }
-                        )
-                        .catch(
-                            function(error) {
-                                console.log(error);
-                                return null;
-                            }
-                        );
-                console.log(jsonResponse);
-                if (jsonResponse) {
-                    console.log("Affichage de la prediction");
-                    let predictions = jsonResponse.predictions;
-                    console.log(predictions);
-                    let mess = document.getElementById("texte-prediction");
-                    let text = "";
-                    for (let prediction of predictions) {
-                        text = text + prediction.prediction;
-                    }
-                    mess.textContent = text + " ";
-                    
-                    
-                    
-                }
-            }
+
             window.onload = initPage;
         </script>
     </body>
