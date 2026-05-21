@@ -11,7 +11,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
     </head>
     <body>
         <a href="./index.html">Accueil</a>
-        <h1>PREDICT'IF - Statistiques</h1>
+        <h1>Statistiques</h1>
         <div id="conteneur-tableaux">
             
             <table id="mediums">
@@ -25,7 +25,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
                 </tr>                  
             </table>
             
-            <table id="graphe">
+            <table>
                 <tr>                    
                     <td>Nombre consultations/médium:</td>
                     <td id="nombre"></td>
@@ -34,7 +34,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
                     <td colspan="2">Répartition Clients par Employés:</td>
                 </tr>
                 <tr>
-                    <td colspan = "2"> <div id="Graph" class="chart"></div> </td>
+                    <td colspan = "2"> <div id="graphe" class="chart"></div> </td>
                 </tr>
             </table>
            
@@ -81,7 +81,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
                     console.log(mediums);
                     let tableMediums = document.getElementById("mediums");
                     for (let medium of mediums) {
-                        let row = document.createElement("tr");                        
+                        let row = document.createElement("tr");   
+                        let tdImage = document.createElement("td");
+                        let image = document.createElement("img");
+                        image.src = "images/profil.png";
+                        image.alt = "Logo profil";
+                        image.width = 20;
+                        tdImage.appendChild(image);
+                        row.appendChild(tdImage);
                         let tdMedium = document.createElement("td");
                         tdMedium.textContent = medium.denomination;
                         row.appendChild(tdMedium);
@@ -92,8 +99,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
                     }
                     
                     // Affichage nombre total consultations
-                    let totalConsultations = jsonResponse.totalConsultations;
-                    document.getElementById("nombre").textContent = totalConsultations;
+                    let moyenne = jsonResponse.moyenneConsMedium;
+                    document.getElementById("nombre").textContent = moyenne;
                     
                     // Affichage distribution employés
                     let employes = jsonResponse.employes;
@@ -108,7 +115,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
                     console.log(clients);
                     let tableClients = document.getElementById("pigeons");
                     for (let client of clients) {
-                        let row = document.createElement("tr");                       
+                        let row = document.createElement("tr");
+                        let tdImage = document.createElement("td");
+                        let image = document.createElement("img");
+                        image.src = "images/profil.png";
+                        image.alt = "Logo profil";
+                        image.width = 20;
+                        tdImage.appendChild(image);
+                        row.appendChild(tdImage);
                         let tdClient = document.createElement("td");
                         tdClient.textContent = client.prenom + " " + client.nom;
                         row.appendChild(tdClient);

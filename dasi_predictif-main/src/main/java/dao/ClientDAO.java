@@ -45,7 +45,7 @@ public class ClientDAO {
         String jpql = "select e from Client e ORDER BY e.nbConsultations DESC";
         TypedQuery query = em.createQuery(jpql, Client.class);
         List<Client> temp = query.getResultList();
-        return temp.subList(0, min(4, temp.size()));
+        return temp.subList(0, min(5, temp.size()));
     }
     
     static public Client merge(Client client) {

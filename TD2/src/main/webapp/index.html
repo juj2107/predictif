@@ -10,6 +10,7 @@
         <div id="lien-mediums"></div>
         <div id="lien-consultation"></div>
         <div id="lien-deconnexion"></div>
+        <div id="lien-statistiques"></div>
         
         <script>
             async function verifierConnexion() {
@@ -30,10 +31,14 @@
 
                 if (jsonResponse.connexion === true) {
                     if (jsonResponse.type === "employe") {
-                        let lien = document.createElement("a");
-                        lien.href="./demarrer_consultation.html";
-                        lien.textContent = "Ma consultation";
-                        document.getElementById("lien-consultation").appendChild(lien);
+                        let lienC = document.createElement("a");
+                        lienC.href="./demarrer_consultation.html";
+                        lienC.textContent = "Ma consultation";
+                        document.getElementById("lien-consultation").appendChild(lienC);
+                        let lienS = document.createElement("a");
+                        lienS.href="./statistiques.html";
+                        lienS.textContent = "Statistiques";
+                        document.getElementById("lien-statistiques").appendChild(lienS);
                     } else {
                         let lien = document.createElement("a");
                         lien.href="./liste_mediums.html";

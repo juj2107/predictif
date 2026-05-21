@@ -71,12 +71,15 @@ public class StatistiquesSerialisation extends Serialisation {
 
         // Nombre total consultations
         Integer totalConsultations = 0;
+        Integer nbMediums = 0;
         if (mediums != null) {
             for (Medium medium : mediums) {
+                nbMediums += 1;
                 totalConsultations += medium.getNbConsultations();
             }
         }
-        jsonContainer.add("totalConsultations", totalConsultations);
+        Integer moyenne = totalConsultations/nbMediums;
+        jsonContainer.add("moyenneConsMedium", moyenne);
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
