@@ -26,6 +26,7 @@ import web.modele.InscriptionAction;
 import web.modele.RecupererConsultationAction;
 import web.modele.TerminerConsultationAction;
 import web.modele.VerifierConnexionAction;
+import web.modele.VisualiserMediumsAction;
 import web.vue.CommencerConsultationSerialisation;
 import web.vue.ConnexionSerialisation;
 import web.vue.ConsultationSerialisation;
@@ -37,6 +38,7 @@ import web.vue.PredictionSerialisation;
 import web.vue.ProfilAstralSerialisation;
 import web.vue.Serialisation;
 import web.vue.TerminerConsultationSerialisation;
+import web.vue.Top5MediumSerialisation;
 
 /**
  *
@@ -141,6 +143,12 @@ public class ActionServlet extends HttpServlet {
             Action action = new FairePredictionAction();
             action.execute(request);
             Serialisation serialisation = new PredictionSerialisation();
+            serialisation.appliquer(request, response);
+        }
+        if (todo.equals("visualiser-top-mediums")) {
+            Action action = new VisualiserMediumsAction();
+            action.execute(request);
+            Serialisation serialisation = new Top5MediumSerialisation();
             serialisation.appliquer(request, response);
         }
         

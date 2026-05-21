@@ -5,7 +5,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
 -->
 <html>
     <head>
-        <title>Statistique</title>
+        <title>Statistiques</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
@@ -62,7 +62,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
             
             async function visualiserTopMediums() {
                 console.log("Appel de l'Action : visualiser medium");
-                let url = './ActionServlet?todo=visualiser-medium';
+                let url = './ActionServlet?todo=visualiser-top-mediums';
                 let jsonResponse = await fetch(url)
                         .then(
                             function(httpResponse) {
@@ -77,12 +77,31 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
                         );
                 console.log(jsonResponse);
                 if (jsonResponse) {
-                    console.log("Affichage top 5 mediums");                    
+                    console.log("Affichage top 5 mediums");    
+                    let mediums = jsonResponse.mediums;
+                    console.log(mediums); 
+                    console.log(mediums.length);
                     
-                    let nom = jsonResponse.nomClient;
-                    let prenom = jsonResponse.prenomClient;
-                    let client = document.getElementById("nom-client");
-                    client.textContent = "Ma consultation avec "+prenom+" "+nom;
+                    let table = document.getElementById("mediums");
+                    
+                    for (let medium of mediums) {
+                        let row = document.createElement("tr");
+                        let tdImage = document.createElement("td");
+                        let image = document.createElement("img");
+                        image.src = "images/profil.png";
+                        image.alt = "Logo profil";
+                        image.width = 20;
+                        tdImage.appendChild(image);
+                        row.appendChild(tdImage);
+                        let tdMedium = document.createElement("td");
+                        tdMedium.textContent = medium.denomination;
+                        row.appendChild(tdMedium);
+                        let tdNbConsultations = document.createElement("td");
+                        tdNbConsultations.textContent = medium.nbConsultations;
+                        row.appendChild(tdNbConsultations);
+                        table.appendChild(row);
+                    }
+                    
                     
                 }
             }

@@ -45,10 +45,12 @@ public class MediumDAO {
     
     static public List<Medium> getTop5Mediums (){
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        String jpql = "select e from Medium e ORDER BY e.nbConsultations ASC";
-        TypedQuery query = em.createQuery(jpql, Medium.class);
-        query.setMaxResults(5);
-        List<Medium> temp = query.getResultList();
-        return temp;
+//        String jpql = "select e from Medium e ORDER BY e.nbConsultations DESC";
+//        TypedQuery<Medium> query = em.createQuery(jpql, Medium.class);
+//        query.setMaxResults(5);
+//        return query.getResultList();
+        List<Medium> list = em.createQuery("select m from Medium m",Medium.class).getResultList();
+        list.sort((a, b) ->Integer.compare(b.getNbConsultations(),a.getNbConsultations()));
+        return list.stream().limit(5).toList();
     }
 }

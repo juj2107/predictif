@@ -101,4 +101,14 @@ abstract public class Medium {
         this.presentation = presentation;
     }
 
+    public Integer getNbConsultations() {
+        return nbConsultations;
+    }
+
+    public void setNbConsultations(Integer nbConsultations) {
+        this.nbConsultations = nbConsultations;
+    }
+    
+    
+
 }

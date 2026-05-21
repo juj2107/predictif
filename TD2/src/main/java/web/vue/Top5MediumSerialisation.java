@@ -25,14 +25,18 @@ public class Top5MediumSerialisation extends Serialisation{
         List<Medium> mediums = (List<Medium>) request.getAttribute("mediums");      
         System.out.println("serialisation "+ mediums);
         JsonObjectBuilder jsonContainer = Json.createObjectBuilder();
+        
         JsonArrayBuilder jsonListeMediums = Json.createArrayBuilder();
 
         for (Medium medium : mediums) {
             JsonObjectBuilder jsonMedium = Json.createObjectBuilder();
-            jsonMedium.add("medium", medium);
-
+            //jsonMedium.add("id", medium.getId());
+            jsonMedium.add("denomination", medium.getDenomination());
+            jsonMedium.add("nbConsultations", medium.getNbConsultations());
+            
             jsonListeMediums.add(jsonMedium);
         }
+
         jsonContainer.add("mediums", jsonListeMediums);
         
 

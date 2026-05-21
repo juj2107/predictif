@@ -14,7 +14,7 @@ import metier.service.Service;
  *
  * @author jduprez
  */
-public class VisualiserMediumsActions extends Action{
+public class VisualiserMediumsAction extends Action{
 
     @Override
     public void execute(HttpServletRequest request) {
