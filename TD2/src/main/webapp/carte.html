@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Carte client</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <a href="./index.html">Accueil</a>
+        <div id="conteneur-tableaux">
+            <div id="map" style="height: 600px; width: 80%; margin: 0 auto;"></div>
+            <table>
+                <tr>
+                    <td colspan="2">Profil du client</td>
+                </tr>
+                <tr>
+                    <th>Adresse postale :</th>
+                    <td><input id="adresse"></td>
+                </tr>
+                <tr>
+                    <th>Nom :</th>
+                    <td><input id="nom"></td>
+                </tr>
+                <tr>
+                    <th>Prenom :</th>
+                    <td><input id="prenom"></td>
+                </tr>
+            </table>
+            
+            <div id="message">Veuillez client sur un point de la carte pour avoir les informations d'un client.</div>
+
+        </div>
+        
+        <script>
+            function initPage() {
+                console.log("Initialisation de la page");
+                initMap();
+            };
+            
+            let googleMapInstance = null;
+            let markers = [];
+            let selectedMarker = null;
+
+            function initMap() {
+
+                googleMapInstance = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: 45.7601424, lng: 4.8961779},
+                    zoom: 13
+                });
+
+                loadClients();
+            }
+
+            async function loadClients() {
+                console.log("Appel de l'Action : afficher clients sur la carte");
+                let url = './ActionServlet?todo=afficher-clients-carte';
+                let jsonResponse = await fetch(url)
+                        .then(
+                            function(httpResponse) {
+                                return httpResponse.json();
+                            }
+                        )
+                        .catch(
+                            function(error) {
+                                console.log(error);
+                                return null;
+                            }
+                        );
+                console.log(jsonResponse);
+                if (jsonResponse) {
+                    console.log("Affichage des clients sur la carte");
+                }
+            }
+
+            window.onload = initPage;
+        </script>
+    </body>
+</html>

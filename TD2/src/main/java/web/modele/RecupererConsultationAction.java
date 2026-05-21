@@ -6,7 +6,6 @@ package web.modele;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import metier.modele.Client;
 import metier.modele.Consultation;
 import metier.modele.Employe;
 import metier.service.Service;
