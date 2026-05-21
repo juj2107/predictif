@@ -8,31 +8,164 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <title>Carte client</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            #conteneur-tableaux {
+                display: flex;
+                gap: 20px;
+                padding: 20px;
+                align-items: center;
+                justify-content: center;
+            }
+            #colonne-droite {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                justify-content: center;
+                align-items: center;
+                
+            }
+            #colonne-droite table {
+                margin: 0 auto;
+            }
+            #message {
+                text-align: center;
+                color: #e3bb98;
+                font-style: italic;
+            }
+            #map {
+                height: 600px;
+                width: 600px;
+            }
+            header {
+                background-color: #163763;
+                padding: 10px 20px;
+                border-bottom: 2px solid #e3bb98;
+            }
+
+            .navbar {
+                background-color: #163763;
+                padding: 10px 20px;
+                gap: 40px;
+                align-items: center;
+                display: flex;
+                width: 100%;
+                justify-content: space-evenly;                
+            }
+            .nav-item {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+
+                background-color: #10294a;
+                color: #e3bb98;
+                padding: 8px 14px;
+                border-radius: 6px;
+                text-decoration: none;
+                font-weight: bold;
+
+                border: none;
+                cursor: pointer;
+                transition: 0.2s;
+
+                font: inherit;
+                line-height: normal;
+                
+                text-decoration: none;
+                position: relative;
+            }
+            .nav-item:hover {
+                transform: translateY(-1px);
+                text-decoration: underline;
+            }
+            footer {
+                margin-top: 40px;
+                background-color: #163763;
+                /*padding: 20px;*/
+                box-sizing: border-box;
+                display: flex;
+                justify-content: center;
+                align-items: stretch;
+                gap: 40px;
+                border-top: 2px solid #e3bb98;
+                color:#e3bb98;
+            }
+            .footer-left,
+            .footer-right {
+                width: 630px;
+            }
+            .footer-separator {
+                width: 2px;
+                background-color: #e3bb98;
+                height: auto;
+            }
+            body {
+                margin: 0;
+                font-family: Arial;
+                background-image: url("./images/fond2.png");
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+            table h1 {
+                margin: 0;
+                width: 100%;
+                display: block;
+                text-align: center;
+            }
+            th {
+                text-align: right;
+                padding-right: 10px;
+            }
+            #nom,#prenom {
+                width: 100%;
+                height: 30px;   /* ajuste selon ton besoin */
+                resize: none;   /* empêche l'utilisateur de redimensionner */
+                box-sizing: border-box;
+            }
+            #adresse {
+                width: 100%;
+                height: 60px;   /* ajuste selon ton besoin */
+                resize: none;   /* empêche l'utilisateur de redimensionner */
+                box-sizing: border-box;
+            }
+        </style>
+            
     </head>
     <body>
-        <a href="./index.html">Accueil</a>
+        <header>
+            <nav class="navbar">
+                <a href="./index.html" class="nav-item">Accueil</a>
+                <a href="./demarrer_consultation.html" class="nav-item">Ma consultation</a>
+                <a href="./statistiques.html" class="nav-item">Statistiques</a>
+                <a href="./carte.html" class="nav-item">Carte clients</a>
+                <button id="btn-deco" class="nav-item">Déconnexion</button>
+            </nav>
+        </header>
         <div id="conteneur-tableaux">
-            <div id="map" style="height: 600px; width: 600px; margin: 0 auto;"></div>
-            <table>
-                <tr>
-                    <td colspan="2">Profil du client</td>
-                </tr>
-                <tr>
-                    <th>Adresse postale :</th>
-                    <td><input readonly id="adresse"></td>
-                </tr>
-                <tr>
-                    <th>Nom :</th>
-                    <td><input readonly id="nom"></td>
-                </tr>
-                <tr>
-                    <th>Prenom :</th>
-                    <td><input readonly id="prenom"></td>
-                </tr>
-            </table>
-            
-            <div id="message">Veuillez client sur un point de la carte pour avoir les informations d'un client.</div>
+            <div id="map"></div>
+            <div id="colonne-droite">
+                <table>
+                    <tr>
+                        <td colspan="2"><h1>Profil du client</h1></td>
+                    </tr>
+                    <tr>
+                        <th>Adresse postale :</th>
+                        <td><div id="adresse"></div></td>
+                    </tr>
+                    <tr>
+                        <th>Nom :</th>
+                        <td><div id="nom"></div></td>
+                    </tr>
+                    <tr>
+                        <th>Prenom :</th>
+                        <td><div id="prenom"></div></td>
+                    </tr>
+                </table>
 
+                <div id="message">
+                    Veuillez client sur un point de la carte pour avoir les informations d'un client.
+                </div>
+            </div>
         </div>
         
         <script>
@@ -112,17 +245,64 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 selectedMarker = marker;
 
                 // remplir le tableau
-                document.getElementById("adresse").value = marker.clientData.adresse;
-                document.getElementById("nom").value = marker.clientData.nom;
-                document.getElementById("prenom").value = marker.clientData.prenom;
+                document.getElementById("adresse").textContent = marker.clientData.adresse;
+                document.getElementById("nom").textContent = marker.clientData.nom;
+                document.getElementById("prenom").textContent = marker.clientData.prenom;
 
                 // cacher message
                 document.getElementById("message").style.display = "none";
+            }
+            
+            async function deconnexion() {
+                console.log("Appel de l'Action: Deconnexion");
+                    let url = './ActionServlet?todo=deconnexion';
+                    let jsonResponse = await fetch(url)
+                            .then(
+                                function(httpResponse) {
+                                    return httpResponse.json();
+                                }
+                            )
+                            .catch(
+                                function(error) {
+                                    console.log(error);
+                                    return null;
+                                }
+                            );
+                    console.log(jsonResponse);
+                    if (jsonResponse) {
+                        let deconnexion  = jsonResponse.deconnexion;
+                        if (deconnexion === false){
+                            console.log("deconnexion a échoué");
+                        }else{
+                            console.log("deconnexion ok");
+                            window.location.href = "./index.html";
+                            verifierConnexion();
+                        }
+
+
+
+
+                    }
             }
 
             window.onload = initPage;
         </script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhf3JleYpal9S-xouJYH8lf7Dvz5Y2Nko">
         </script>
+        <footer>
+            <div class="footer-left">
+                <p>PREDICT'IF</p>
+                <p>INSA Lyon, 31 Avenue Jean Capelle</p>
+                <p>69621, Villeurbanne</p>
+            </div>
+
+            <div class="footer-separator"></div>
+
+            <div class="footer-right">
+                <p>CONTACTS</p>
+                <p>contact@predictif.arnaque</p>
+                <p>07 68 95 11 60</p>
+            </div>
+        </footer>
     </body>
 </html>
