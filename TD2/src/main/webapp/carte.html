@@ -12,22 +12,22 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <body>
         <a href="./index.html">Accueil</a>
         <div id="conteneur-tableaux">
-            <div id="map" style="height: 600px; width: 80%; margin: 0 auto;"></div>
+            <div id="map" style="height: 600px; width: 600px; margin: 0 auto;"></div>
             <table>
                 <tr>
                     <td colspan="2">Profil du client</td>
                 </tr>
                 <tr>
                     <th>Adresse postale :</th>
-                    <td><input id="adresse"></td>
+                    <td><input readonly id="adresse"></td>
                 </tr>
                 <tr>
                     <th>Nom :</th>
-                    <td><input id="nom"></td>
+                    <td><input readonly id="nom"></td>
                 </tr>
                 <tr>
                     <th>Prenom :</th>
-                    <td><input id="prenom"></td>
+                    <td><input readonly id="prenom"></td>
                 </tr>
             </table>
             
@@ -48,8 +48,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             function initMap() {
 
                 googleMapInstance = new google.maps.Map(document.getElementById('map'), {
-                    center: {lat: 45.7601424, lng: 4.8961779},
-                    zoom: 13
+                    center: {lat: 46.954695, lng: 2.505753},
+                    zoom: 6
                 });
 
                 loadClients();
@@ -73,10 +73,56 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 console.log(jsonResponse);
                 if (jsonResponse) {
                     console.log("Affichage des clients sur la carte");
+                    let clients = jsonResponse.clients;
+                    for (let client of clients) {
+                        createClientMarker(client);
+    }
                 }
+            }
+            function createClientMarker(client) {
+
+                let marker = new google.maps.Marker({
+                    map: googleMapInstance,
+                    position: {
+                        lat: client.latitude,
+                        lng: client.longitude
+                    },
+                    title: client.prenom + " " + client.nom,
+                    icon: {url:"./images/black-pin.png",scaledSize: new google.maps.Size(30, 40)}
+                });
+
+                marker.clientData = client;
+
+                marker.addListener("click", function () {
+                    selectClientMarker(marker);
+                });
+
+                markers.push(marker);
+            }
+            
+            function selectClientMarker(marker) {
+
+                // remettre ancien marker normal
+                if (selectedMarker) {
+                    selectedMarker.setIcon({url:"./images/black-pin.png",scaledSize: new google.maps.Size(30, 40)});
+                }
+
+                // nouveau marker sélectionné
+                marker.setIcon({url:"./images/red-pin.png",scaledSize: new google.maps.Size(30, 40)});
+                selectedMarker = marker;
+
+                // remplir le tableau
+                document.getElementById("adresse").value = marker.clientData.adresse;
+                document.getElementById("nom").value = marker.clientData.nom;
+                document.getElementById("prenom").value = marker.clientData.prenom;
+
+                // cacher message
+                document.getElementById("message").style.display = "none";
             }
 
             window.onload = initPage;
+        </script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhf3JleYpal9S-xouJYH8lf7Dvz5Y2Nko">
         </script>
     </body>
 </html>

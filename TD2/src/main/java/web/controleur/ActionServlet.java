@@ -23,6 +23,7 @@ import web.modele.DeconnexionAction;
 import web.modele.DemarrerConsultationAction;
 import web.modele.FairePredictionAction;
 import web.modele.InscriptionAction;
+import web.modele.RecupererClientsAction;
 import web.modele.RecupererConsultationAction;
 import web.modele.TerminerConsultationAction;
 import web.modele.VerifierConnexionAction;
@@ -33,6 +34,7 @@ import web.vue.ConsultationSerialisation;
 import web.vue.DeconnexionSerialisation;
 import web.vue.HistoriqueSerialisation;
 import web.vue.InscriptionSerialisation;
+import web.vue.ListeClientSerialisation;
 import web.vue.ListeMediumSerialisation;
 import web.vue.PredictionSerialisation;
 import web.vue.ProfilAstralSerialisation;
@@ -149,6 +151,12 @@ public class ActionServlet extends HttpServlet {
             Action action = new VisualiserStatistiquesAction();
             action.execute(request);
             Serialisation serialisation = new StatistiquesSerialisation();
+            serialisation.appliquer(request, response);
+        }
+        if (todo.equals("afficher-clients-carte")) {
+            Action action = new RecupererClientsAction();
+            action.execute(request);
+            Serialisation serialisation = new ListeClientSerialisation();
             serialisation.appliquer(request, response);
         }
         

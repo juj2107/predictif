@@ -10,11 +10,9 @@ import jakarta.json.JsonObjectBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
-import metier.modele.Astrologue;
-import metier.modele.Cartomancier;
 import metier.modele.Client;
-import metier.modele.Medium;
 
 /**
  *
@@ -30,19 +28,26 @@ public class ListeClientSerialisation extends Serialisation {
         JsonArrayBuilder jsonListeClients = Json.createArrayBuilder();
 
         for (Client client : clients) {
-            JsonObjectBuilder jsonMedium = Json.createObjectBuilder();
+            JsonObjectBuilder jsonClient = Json.createObjectBuilder();
             //jsonMedium.add("id", medium.getId());
-            jsonMedium.add("nom", client.getNom());
-            jsonMedium.add("prenom", client.getPrenom());
-            jsonMedium.add("adresse", client.getAdresse());
+            jsonClient.add("nom", client.getNom());
+            jsonClient.add("prenom", client.getPrenom());
+            jsonClient.add("adresse", client.getAdresse());
             List<String> gps = client.getGps();
-            jsonMedium.add("coordonnees", gps);
+            jsonClient.add("longitude", Double.parseDouble(gps.get(0)));
+            jsonClient.add("latitude", Double.parseDouble(gps.get(1)));
 
-            jsonListeClients.add(jsonMedium);
+            jsonListeClients.add(jsonClient);
         }
 
         jsonContainer.add("clients", jsonListeClients);
         
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        PrintWriter out = response.getWriter();
+        out.print(jsonContainer.build().toString());
+        out.close();
     }
     
 }

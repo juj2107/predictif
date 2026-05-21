@@ -11,6 +11,7 @@
         <div id="lien-consultation"></div>
         <div id="lien-deconnexion"></div>
         <div id="lien-statistiques"></div>
+        <div id="lien-carte"></div>
         
         <script>
             async function verifierConnexion() {
@@ -39,6 +40,10 @@
                         lienS.href="./statistiques.html";
                         lienS.textContent = "Statistiques";
                         document.getElementById("lien-statistiques").appendChild(lienS);
+                        let lienM = document.createElement("a");
+                        lienM.href="./carte.html";
+                        lienM.textContent = "Carte client";
+                        document.getElementById("lien-carte").appendChild(lienM);
                     } else {
                         let lien = document.createElement("a");
                         lien.href="./liste_mediums.html";
