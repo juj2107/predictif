@@ -29,7 +29,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             }
             #message {
                 text-align: center;
-                color: #e3bb98;
+                color: #edd4be;
                 font-style: italic;
             }
             #map {
@@ -39,7 +39,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             header {
                 background-color: #163763;
                 padding: 10px 20px;
-                border-bottom: 2px solid #e3bb98;
+                border-bottom: 2px solid #edd4be;
             }
 
             .navbar {
@@ -57,7 +57,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 justify-content: center;
 
                 background-color: #10294a;
-                color: #e3bb98;
+                color: #edd4be;
                 padding: 8px 14px;
                 border-radius: 6px;
                 text-decoration: none;
@@ -86,8 +86,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 justify-content: center;
                 align-items: stretch;
                 gap: 40px;
-                border-top: 2px solid #e3bb98;
-                color:#e3bb98;
+                border-top: 2px solid #edd4be;
+                color:#edd4be;
             }
             .footer-left,
             .footer-right {
@@ -95,7 +95,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             }
             .footer-separator {
                 width: 2px;
-                background-color: #e3bb98;
+                background-color: #edd4be;
                 height: auto;
             }
             body {
@@ -106,27 +106,39 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 background-position: center;
                 background-repeat: no-repeat;
             }
-            table h1 {
-                margin: 0;
-                width: 100%;
-                display: block;
+            .profil-client h1 {
                 text-align: center;
+                color: #edd4be;
+                margin-bottom: 15px;
+                text-shadow: 0 0 10px rgba(227, 187, 152, 0.8);
+            }
+
+            .profil-client table {
+                background-color: #10294a;
+
+                border-radius: 12px;
+                overflow: hidden;
+
+                padding: 15px;
+
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                color:#edd4be;
             }
             th {
                 text-align: right;
                 padding-right: 10px;
             }
-            #nom,#prenom {
-                width: 100%;
-                height: 30px;   /* ajuste selon ton besoin */
-                resize: none;   /* empêche l'utilisateur de redimensionner */
-                box-sizing: border-box;
-            }
-            #adresse {
-                width: 100%;
-                height: 60px;   /* ajuste selon ton besoin */
-                resize: none;   /* empêche l'utilisateur de redimensionner */
-                box-sizing: border-box;
+            input,textarea {
+                background-color: #163763;
+                color: #edd4be;
+
+                border: 1px solid #163763;
+                border-radius: 6px;
+
+                padding: 8px;
+                resize: none; 
+                font-family: Arial;
+                width: 250px;
             }
         </style>
             
@@ -144,26 +156,29 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <div id="conteneur-tableaux">
             <div id="map"></div>
             <div id="colonne-droite">
-                <table>
-                    <tr>
-                        <td colspan="2"><h1>Profil du client</h1></td>
-                    </tr>
-                    <tr>
-                        <th>Adresse postale :</th>
-                        <td><div id="adresse"></div></td>
-                    </tr>
-                    <tr>
-                        <th>Nom :</th>
-                        <td><div id="nom"></div></td>
-                    </tr>
-                    <tr>
-                        <th>Prenom :</th>
-                        <td><div id="prenom"></div></td>
-                    </tr>
-                </table>
+                <div class="profil-client">
+
+                    <h1>Profil du client</h1>
+
+                    <table>
+                        <tr>
+                            <th>Adresse postale :</th>
+                            <td><textarea readonly id="adresse"></textarea></td>
+                        </tr>
+                        <tr>
+                            <th>Nom :</th>
+                            <td><input readonly id="nom"></td>
+                        </tr>
+                        <tr>
+                            <th>Prénom :</th>
+                            <td><input readonly id="prenom"></td>
+                        </tr>
+                    </table>
+
+                </div>
 
                 <div id="message">
-                    Veuillez client sur un point de la carte pour avoir les informations d'un client.
+                    Veuillez cliquer sur un point de la carte pour avoir les informations d'un client.
                 </div>
             </div>
         </div>
@@ -245,12 +260,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 selectedMarker = marker;
 
                 // remplir le tableau
-                document.getElementById("adresse").textContent = marker.clientData.adresse;
-                document.getElementById("nom").textContent = marker.clientData.nom;
-                document.getElementById("prenom").textContent = marker.clientData.prenom;
+                document.getElementById("adresse").value = marker.clientData.adresse;
+                document.getElementById("nom").value = marker.clientData.nom;
+                document.getElementById("prenom").value = marker.clientData.prenom;
 
                 // cacher message
-                document.getElementById("message").style.display = "none";
+                document.getElementById("message").style.visibility = "hidden";
             }
             
             async function deconnexion() {
