@@ -8,6 +8,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
         <title>Statistiques</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="./js/echarts_v6.0.0.min.js"></script>
+        <style>
+            h1 { text-align: center; }
+            .note { text-align: center; font-variant: small-caps; }
+            #buttons { text-align: center; }
+            button { border-radius: 20px; padding: 10px; cursor: pointer; }
+            div.charts { text-align: center; }
+            div.chart { width: 600px; height:400px; border: 1px solid black; margin: 10px 10px; display: inline-block; }
+            #footer { height: 200px; }
+        </style>
     </head>
     <body>
         <a href="./index.html">Accueil</a>
@@ -29,9 +39,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
                 <tr>                    
                     <td>Nombre consultations/médium:</td>
                     <td id="nombre"></td>
-                </tr>
-                <tr>
-                    <td colspan="2">Répartition Clients par Employés:</td>
                 </tr>
                 <tr>
                     <td colspan = "2"> <div id="graphe" class="chart"></div> </td>
@@ -103,12 +110,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
                     document.getElementById("nombre").textContent = moyenne;
                     
                     // Affichage distribution employés
-                    let employes = jsonResponse.employes;
-                    console.log(employes);
-                    let tableEmployes = document.getElementById("employes");
-                    for (let employe of employes) {
-                        
+                    let stats = jsonResponse.stats;
+                    console.log(stats);
+                    let chartData = [];
+                    for (let employe of stats) {
+                        chartData.push({name: employe.prenom,value: employe.nbClients});
                     }
+
+                    console.log('Chart Data ', chartData);
+                    buildPieChart('graphe', chartData, 'Répartition Clients par Employés:');
                     
                     // Affichage Top 5 Clients
                     let clients = jsonResponse.clients;
@@ -132,6 +142,53 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
                         tableClients.appendChild(row);
                     }
                 }
+            }
+            function buildPieChart(container, graphData, graphTitle) {
+
+                // Paramétrage du Graphe
+                let chartOptions = {
+                    title: {
+                      text: graphTitle
+                    },
+                    tooltip: {
+                        trigger: 'item'
+                    },
+                    legend: {
+                      //top: '5%',
+                      //left: 'center'
+                    },
+                    series: [
+                    {
+                        type: 'pie',
+                        radius: ['40%', '70%'],
+                        avoidLabelOverlap: false,
+                        itemStyle: {
+                          borderRadius: 10,
+                          borderColor: '#fff',
+                          borderWidth: 2
+                        },
+                        label: {
+                          show: false,
+                          position: 'center'
+                        },
+                        emphasis: {
+                          label: {
+                            show: true,
+                            fontSize: 40,
+                            fontWeight: 'bold'
+                          }
+                        },
+                        labelLine: {
+                          show: false
+                        },
+                        data: graphData
+                      }
+                    ]
+                };
+
+                // Construction du Graphe
+                const myChart = echarts.init(document.getElementById(container));
+                myChart.setOption(chartOptions);
             }
 
             window.onload = initPage;

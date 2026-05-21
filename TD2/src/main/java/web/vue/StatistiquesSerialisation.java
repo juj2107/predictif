@@ -26,7 +26,7 @@ public class StatistiquesSerialisation extends Serialisation {
     public void appliquer(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<Medium> mediums = (List<Medium>) request.getAttribute("mediums");
         List<Client> clients = (List<Client>) request.getAttribute("clients");
-        List<Employe> employes = (List<Employe>) request.getAttribute("employes");
+        List<Object[]> stats = (List<Object[]>) request.getAttribute("statsEmployes");
 
         System.out.println("serialisation statistiques");
         JsonObjectBuilder jsonContainer = Json.createObjectBuilder();
@@ -56,20 +56,25 @@ public class StatistiquesSerialisation extends Serialisation {
         }
         jsonContainer.add("clients", jsonClients);
 
-        // Employes distribution
+        // Repartition clients par employes
         JsonArrayBuilder jsonEmployes = Json.createArrayBuilder();
-        if (employes != null) {
-            for (Employe employe : employes) {
-                JsonObjectBuilder jsonEmploye = Json.createObjectBuilder();
-                jsonEmploye.add("prenom", employe.getPrenom());
-                jsonEmploye.add("nom", employe.getNom());
-                jsonEmploye.add("nbConsultations", employe.getNbConsultations());
-                jsonEmployes.add(jsonEmploye);
-            }
-        }
-        jsonContainer.add("employes", jsonEmployes);
+        for (Object[] ligne : stats) {
 
-        // Nombre total consultations
+            Employe e = (Employe) ligne[0];
+            Integer nbClients = (Integer) ligne[1];
+
+            JsonObjectBuilder jsonEmploye =
+                Json.createObjectBuilder();
+
+            jsonEmploye.add("prenom", e.getPrenom());
+            jsonEmploye.add("nom", e.getNom());
+            jsonEmploye.add("nbClients", nbClients);
+
+            jsonEmployes.add(jsonEmploye);
+        }
+        jsonContainer.add("stats", jsonEmployes);
+
+        // Nombre moyen consultations
         Integer totalConsultations = 0;
         Integer nbMediums = 0;
         if (mediums != null) {

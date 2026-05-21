@@ -49,4 +49,11 @@ public class ConsultationDAO {
         return consultation;
     }
     
+    public static List<Consultation> getConsultationsList() {
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        String jpql = "select c from Consultation c";
+        TypedQuery<Consultation> query = em.createQuery(jpql, Consultation.class);
+        return query.getResultList();
+    }
+    
 }

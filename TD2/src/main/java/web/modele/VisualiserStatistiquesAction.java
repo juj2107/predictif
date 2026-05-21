@@ -6,6 +6,7 @@ package web.modele;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import metier.modele.Client;
 import metier.modele.Employe;
@@ -25,11 +26,18 @@ public class VisualiserStatistiquesAction extends Action {
         if ("employe".equals(type)) {
             List<Medium> mediums = Service.recupererTop5Medium();
             List<Client> clients = Service.recupererTop5Client();
-            List<Employe> employes = Service.recupererTopEmployes();
+            List<Employe> employes = Service.recupererListeEmployes();
+            List<Object[]> stats = new ArrayList<>();
+            for (Employe e : employes) {
+
+                int nbClients = Service.recupererNbClientsEmploye(e);
+                Object[] ligne = {e, nbClients};
+                stats.add(ligne);
+            }
             
             request.setAttribute("mediums", mediums);
             request.setAttribute("clients", clients);
-            request.setAttribute("employes", employes);
+            request.setAttribute("statsEmployes", stats);
         }
         System.out.println("\n action visualiser statistiques");
     }

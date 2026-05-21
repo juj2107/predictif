@@ -10,6 +10,7 @@ import dao.EmployeDAO;
 import dao.JpaUtil;
 import dao.MediumDAO;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import metier.modele.Client;
 import metier.modele.Consultation;
@@ -341,5 +342,32 @@ public class Service {
             JpaUtil.fermerContextePersistance();
         }
         return medium;
+    }
+    
+    static public int recupererNbClientsEmploye(Employe employe) {
+        JpaUtil.creerContextePersistance();
+        List<Integer> idsClients = new ArrayList<>();
+        try {
+            List<Consultation> consultations = ConsultationDAO.getConsultationsList();
+
+            for (Consultation c : consultations) {
+
+                if (c.getEmploye().equals(employe)) {
+
+                    Integer idClient = c.getClient().getId();
+
+                    if (!idsClients.contains(idClient)) {
+                        idsClients.add(idClient);
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            System.getLogger(Service.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        
+
+        return idsClients.size();
     }
 }
