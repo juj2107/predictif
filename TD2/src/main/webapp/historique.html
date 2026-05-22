@@ -8,16 +8,217 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <title>Historique consultations</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <style>
+            body {
+                margin: 0;
+                font-family: Arial;
+                background-image: url("./images/fond.png");
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            header {
+                background-color: #163763;
+                padding: 10px 20px;
+                border-bottom: 2px solid #edd4be;
+            }
+
+            .navbar {
+                background-color: #163763;
+                padding: 10px 20px;
+                gap: 40px;
+                align-items: center;
+                display: flex;
+                width: 100%;
+                justify-content: space-evenly;
+            }
+
+            .nav-item {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #10294a;
+                color: #edd4be;
+                padding: 8px 14px;
+                border-radius: 6px;
+                text-decoration: none;
+                font-weight: bold;
+                border: none;
+                cursor: pointer;
+                transition: 0.2s;
+                font: inherit;
+                line-height: normal;
+                position: relative;
+            }
+
+            .nav-item:hover {
+                transform: translateY(-1px);
+                text-decoration: underline;
+            }
+            
+            @font-face {
+                font-family: "Bell MT";
+                src: url("./fonts/bell-mt-italic.ttf") format("truetype");
+                font-style: italic;
+                font-weight: normal;
+            }
+            
+            h1 {
+                font-size: 4.5rem;
+                color: #edd4be;
+                margin-bottom: 20px;
+                margin-top: 50px;
+                text-align: center;
+                font-family: "Bell MT", serif;
+                font-style: italic;
+                text-shadow:
+                -1.5px -1.5px 0 #997c62,
+                 1.5px -1.5px 0 #997c62,
+                -1.5px  1.5px 0 #997c62,
+                 1.5px  1.5px 0 #997c62;
+            }
+            
+            h2 {
+                font-size: 2.5rem;
+                color: #edd4be;
+                text-shadow: 0 0 10px rgba(227, 187, 152, 0.8);
+                margin-bottom: 30px;
+                margin-top: 0px;
+                font-family: "Bell MT", serif;
+                font-style: italic;
+                text-align: center;
+            }
+            
+            table {
+                /*background-color: #10294a;*/
+
+                /*border-radius: 12px;*/
+                /*overflow: hidden;*/
+
+                padding: 15px;
+
+                /*box-shadow: 0 2px 10px rgba(0,0,0,0.2);*/
+                color:#edd4be;
+                text-align: center;
+                width: 500px;
+                margin: 0 auto;
+                border-spacing: 0 10px;
+            }
+            
+            th {
+                text-align: right;
+                vertical-align: middle;
+                white-space: nowrap;
+                padding: 10px 12px;
+                background-color: #10294a;
+                
+            }
+            
+            td {
+                text-align: left;
+                padding: 10px 12px;
+                background-color: #10294a;
+            }
+            
+            th:first-child {
+                border-top-left-radius: 12px;
+                border-bottom-left-radius: 12px;
+            }
+
+            td:last-child {
+                border-top-right-radius: 12px;
+                border-bottom-right-radius: 12px;
+            }
+            
+            td p {
+                margin: 6px 0;
+                text-align: center;
+                font-family: "Bell MT", serif;
+                font-style: italic;
+                font-size: 1.5rem;
+            }
+            
+            
+            input {
+                background-color: #163763;
+                color: #edd4be;
+
+                border: 1px solid #163763;
+                border-radius: 6px;
+
+                padding: 8px;
+                font-family: Arial;
+                width: 150px;
+                display: block;
+            }
+
+            
+            footer {
+                margin-top: auto;
+                background-color: #163763;
+                box-sizing: border-box;
+                display: flex;
+                justify-content: center;
+                align-items: stretch;
+                gap: 40px;
+                border-top: 2px solid #edd4be;
+                color: #edd4be;
+            }
+
+            .footer-left,
+            .footer-right {
+                width: 630px;
+            }
+
+            .footer-separator {
+                width: 2px;
+                background-color: #edd4be;
+                height: auto;
+            }
+            
+            
+        </style>
     </head>
     <body>
-        <a href="./index.html"> Accueil </a>
+        <header>
+            <nav class="navbar">
+                <a href="./index.html" class="nav-item">Accueil</a>
+                <a href="./liste_mediums.html" class="nav-item">Mediums</a>
+                <a href="./historique.html" class="nav-item">Historique</a>
+                <a href="./profil.html" class="nav-item">Profil Astral</a>
+                <button id="btn-deco" class="nav-item">Déconnexion</button>
+            </nav>
+        </header>
         <h1>Historique des consultations</h1>
         <h2>Mes consultations</h2>
         <table id="historique"></table>
+        
+        <footer>
+            <div class="footer-left">
+                <p>PREDICT'IF</p>
+                <p>INSA Lyon, 31 Avenue Jean Capelle</p>
+                <p>69621, Villeurbanne</p>
+            </div>
+            <div class="footer-separator"></div>
+            <div class="footer-right">
+                <p>CONTACTS</p>
+                <p>contact@predictif.arnaque</p>
+                <p>07 68 95 11 60</p>
+            </div>
+        </footer>
         <script>
             function initPage() {
                 console.log("Initialisation de la page");
                 listerConsultations();
+                document.getElementById('btn-deco').addEventListener('click', function() {
+                    console.log("Click sur le bouton 'deconnexion'");
+                    deconnexion();
+                });
             };
             
             async function listerConsultations() {
@@ -40,27 +241,81 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     console.log("Affichage de l'historique");
                     let historique = jsonResponse.historique;
                     const table = document.getElementById("historique");
-                    for (let consultation of historique) {
-                        console.log(consultation.medium, consultation.date);
+                    if (historique.length === 0) {
                         const tr = document.createElement("tr");
-                        const thM = document.createElement("th");
-                        thM.textContent = "Médium :";
-                        tr.appendChild(thM);
-                        const tdMedium = document.createElement("td");
-                        tdMedium.textContent = consultation.medium;
-                        tr.appendChild(tdMedium);
-                        const thD = document.createElement("th");
-                        thD.textContent = "Date :";
-                        tr.appendChild(thD);
-                        const tdDate = document.createElement("td");
-                        tdDate.textContent = consultation.date;
-                        tr.appendChild(tdDate);
+                        const td = document.createElement("td");
+
+                        td.innerHTML = `
+                            <p>Vous n’avez pas encore consulté de médium.</p>
+                            <p>Rendez-vous dans la liste des médiums pour réaliser votre première consultation et en savoir plus sur votre avenir.</p>
+                        `;
+
+                        tr.appendChild(td);
                         table.appendChild(tr);
+                    }
+                    else {
+                        for (let consultation of historique) {
+                            console.log(consultation.medium, consultation.date);
+                            const tr = document.createElement("tr");
+                            const thM = document.createElement("th");
+                            thM.textContent = "Médium :";
+                            tr.appendChild(thM);
+                            const tdMedium = document.createElement("td");
+                            let inputM = document.createElement("input");
+                            inputM.value = consultation.medium;
+                            inputM.type = "text";
+                            inputM.readOnly = true;
+                            tdMedium.appendChild(inputM);
+                            tr.appendChild(tdMedium);
+                            const thD = document.createElement("th");
+                            thD.textContent = "Date :";
+                            tr.appendChild(thD);
+                            const tdDate = document.createElement("td");
+                            let inputD = document.createElement("input");
+                            inputD.value = consultation.date;
+                            inputD.readOnly = true;
+                            inputD.type = "text";
+                            tdDate.appendChild(inputD);
+                            tr.appendChild(tdDate);
+                            table.appendChild(tr);
+                        }
                     }
                     
                     
                     
+                    
                 }
+            }
+            async function deconnexion() {
+                console.log("Appel de l'Action: Deconnexion");
+                    let url = './ActionServlet?todo=deconnexion';
+                    let jsonResponse = await fetch(url)
+                            .then(
+                                function(httpResponse) {
+                                    return httpResponse.json();
+                                }
+                            )
+                            .catch(
+                                function(error) {
+                                    console.log(error);
+                                    return null;
+                                }
+                            );
+                    console.log(jsonResponse);
+                    if (jsonResponse) {
+                        let deconnexion  = jsonResponse.deconnexion;
+                        if (deconnexion === false){
+                            console.log("deconnexion a échoué");
+                        }else{
+                            console.log("deconnexion ok");
+                            window.location.href = "./index.html";
+                            verifierConnexion();
+                        }
+
+
+
+
+                    }
             }
             window.onload = initPage;
         </script>
