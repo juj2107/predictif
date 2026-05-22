@@ -347,25 +347,20 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             
             async function inscription() {
                 console.log("Appel de l'Action: Inscription");
-                let nom = document.getElementById("nom").value;
-                let prenom = document.getElementById("prenom").value;
-                let dateNaissance = document.getElementById("dateNaissance").value;
-                let adresse = document.getElementById("adresse").value;
-                let telephone = document.getElementById("telephone").value;
-                let mail = document.getElementById("mail").value;
-                let mdp = document.getElementById("mdp").value;
-                let cmdp = document.getElementById("cmdp").value;
-                let url = './ActionServlet?todo=inscription'
-                        +'&nom='+encodeURIComponent(nom)
-                        +'&prenom='+encodeURIComponent(prenom)
-                        +'&date='+encodeURIComponent(dateNaissance)
-                        +'&adresse='+encodeURIComponent(adresse)
-                        +'&tel='+encodeURIComponent(telephone)
-                        +'&mail='+encodeURIComponent(mail)
-                        +'&mdp='+encodeURIComponent(mdp)
-                        +'&cmdp='+encodeURIComponent(cmdp);
+                let param = {
+                    nom: document.getElementById("nom").value,
+                    prenom: document.getElementById("prenom").value,
+                    dateNaissance: document.getElementById("dateNaissance").value,
+                    adresse: document.getElementById("adresse").value,
+                    telephone: document.getElementById("telephone").value,
+                    mail: document.getElementById("mail").value,
+                    mdp: document.getElementById("mdp").value,
+                    cmdp: document.getElementById("cmdp").value
+                };
+                let options = {method:"POST", body: new URLSearchParams(param)};
+                let url = './ActionServlet?todo=inscription';
                 
-                let jsonResponse = await fetch(url)
+                let jsonResponse = await fetch(url, options)
                         .then(
                             function(httpResponse) {
                                 return httpResponse.json();
