@@ -71,7 +71,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             h1 {
                 font-size: 4.5rem;
                 color: #edd4be;
-                margin-bottom: 30px;
+                margin-bottom: 20px;
                 margin-top: 50px;
                 text-align: center;
                 font-family: "Bell MT", serif;
@@ -96,6 +96,71 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 text-align: center;
                 width: 500px;
                 margin: 0 auto;
+            }
+            
+            th {
+                text-align: right;
+                vertical-align: middle;
+                white-space: nowrap;
+                padding: 10px 12px;
+            }
+            
+            td {
+                text-align: left;
+                padding: 10px 12px;
+            }
+            
+            td[colspan="2"] {
+                text-align: center;
+            }
+            
+            tr:last-child td {
+                text-align: center;
+            }
+            
+            input {
+                background-color: #163763;
+                color: #edd4be;
+
+                border: 1px solid #163763;
+                border-radius: 6px;
+
+                padding: 8px;
+                font-family: Arial;
+                width: 250px;
+                display: block;
+            }
+            
+            #bouton-connexion {
+                display: block;
+                margin: 10px auto;
+                background-color: #5923d9;
+                color: #edd4be;
+                padding: 8px 14px;
+                border-radius: 6px;
+                font-weight: bold;
+                border: none;
+                cursor: pointer;
+                transition: 0.2s;
+                font-family: Arial;
+            }
+
+            #bouton-connexion:hover {
+                transform: translateY(-1px);
+                text-decoration: underline;
+            }
+            
+            table a {
+                color: #edd4be;
+                text-decoration: none;
+                font-style: italic;
+                opacity: 0.8;
+                transition: 0.2s;
+            }
+
+            table a:hover {
+                opacity: 1;
+                text-decoration: underline;
             }
             
             footer {
@@ -123,6 +188,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             .nav-spacer {
                 width: 400px;
             }
+            
+            #message-erreur {
+                text-align: center;
+                color: #e05c5c;
+                font-style: italic;
+                margin-bottom: 10px;
+                visibility: hidden;
+            }
         </style>
     </head>
     <body>
@@ -132,23 +205,24 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 <a href="./liste_mediums.html" class="nav-item">Mediums</a>
                 <div class="nav-spacer"></div>
                 <a href="./connexion.html" class="nav-item">Connexion</a>
-                <a href="./Inscription.html" class="nav-item">Inscription</a>
+                <a href="./inscription.html" class="nav-item">Inscription</a>
             </nav>
         </header>
         <h1>Connexion</h1>
+        <div id="message-erreur">Veuillez vérifier vos identifiants et réessayez.</div>
         <table>
             <tr>
                 <th>
-                    <label for="login">Adresse mail</label>
+                    Adresse mail :
                 </th>
                 <td>
-                    <input type="text" id="login" name="login" size="20" />
+                    <input type="text" id="login" name="login" />
                 </td>
             </tr>
 
             <tr>
                 <th>
-                    <label for="password">Mot de passe</label>
+                    Mot de passe :
                 </th>
                 <td>
                     <input type="password" id="password" name="password" size="20" />
@@ -189,6 +263,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     console.log("Click sur le bouton 'Connexion'");
                     connexion();
                 });
+                document.addEventListener('keydown', function(event) {
+                    if (event.key === 'Enter') {
+                        connexion();
+                    }
+                });
             };
             
             async function connexion() {
@@ -213,8 +292,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     let connexion  = jsonResponse.connexion;
                     if (connexion === false){
                         console.log("reessayer avec un autre mdp");
+                        document.getElementById("message-erreur").style.visibility = "visible";
                     }else{
                         console.log('Affichage de identifiant');
+                        document.getElementById("message-erreur").style.visibility = "hidden";
                         let identifiant = jsonResponse.id;
                         console.log(identifiant);
                         if (jsonResponse.type === "client") {
