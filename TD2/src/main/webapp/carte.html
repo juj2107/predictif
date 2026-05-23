@@ -15,6 +15,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 padding: 20px;
                 align-items: center;
                 justify-content: center;
+                flex: 1;
             }
             #colonne-droite {
                 display: flex;
@@ -105,6 +106,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
             }
             .profil-client h1 {
                 text-align: center;
@@ -128,7 +132,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 text-align: right;
                 padding-right: 10px;
             }
-            input,textarea {
+            
+            .value {
                 background-color: #163763;
                 color: #edd4be;
 
@@ -136,9 +141,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 border-radius: 6px;
 
                 padding: 8px;
-                resize: none; 
                 font-family: Arial;
                 width: 250px;
+                min-height: 20px;
             }
         </style>
             
@@ -163,15 +168,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <table>
                         <tr>
                             <th>Adresse postale :</th>
-                            <td><textarea readonly id="adresse"></textarea></td>
+                            <td><div id="adresse" class="value"></div></td>
                         </tr>
                         <tr>
                             <th>Nom :</th>
-                            <td><input readonly id="nom"></td>
+                            <td><div id="nom" class="value"></div></td>
                         </tr>
                         <tr>
                             <th>Prénom :</th>
-                            <td><input readonly id="prenom"></td>
+                            <td><div id="prenom" class="value"></div></td>
                         </tr>
                     </table>
 
@@ -264,9 +269,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 selectedMarker = marker;
 
                 // remplir le tableau
-                document.getElementById("adresse").value = marker.clientData.adresse;
-                document.getElementById("nom").value = marker.clientData.nom;
-                document.getElementById("prenom").value = marker.clientData.prenom;
+                document.getElementById("adresse").textContent = marker.clientData.adresse;
+                document.getElementById("nom").textContent = marker.clientData.nom;
+                document.getElementById("prenom").textContent = marker.clientData.prenom;
 
                 // cacher message
                 document.getElementById("message").style.visibility = "hidden";

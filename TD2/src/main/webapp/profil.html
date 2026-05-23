@@ -122,7 +122,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             }
             
             
-            input {
+            .value  {
                 background-color: #163763;
                 color: #edd4be;
 
@@ -243,10 +243,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         row.appendChild(th);
 
                         let td = row.insertCell();
-                        let input = document.createElement("input");
-                        input.type = "text";
-                        input.readOnly = true;
-                        input.value = valeur;
+                        let input = document.createElement("div");
+                        input.textContent = valeur;
+                        input.className = "value";
                         td.appendChild(input);
                     }
                     

@@ -260,6 +260,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 display: block;
             }
             
+            .value-inline {
+                background-color: #163763;
+                color: #edd4be;
+
+                border: 1px solid #163763;
+                border-radius: 6px;
+
+                padding: 8px;
+                font-family: Arial;
+                width: 100px;
+                display: inline-block;
+            }
+            
             #demarrer {
                 display: block;
                 margin: 10px auto;
@@ -456,7 +469,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     let nbConsultations = 0;
 
                     for (let consultation of historique) {
-                        if (!consultation.commentaire === "en cours") {
+                        if (consultation.commentaire !== "en cours") {
                             nbConsultations += 1;
                             const card = document.createElement("div");
                             card.className = "medium-card";
@@ -466,25 +479,31 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             header.className = "medium-header";
 
                             const medium = document.createElement("div");
+                            medium.style.display = "flex";
+                            medium.style.alignItems = "center";
+                            medium.style.gap = "8px";
 
                             const labelMedium = document.createElement("div");
                             labelMedium.textContent = "Médium : ";
 
                             const valeurMedium = document.createElement("div");
                             valeurMedium.textContent = consultation.medium;
-                            valeurMedium.className = "value";
+                            valeurMedium.className = "value-inline";
 
                             medium.appendChild(labelMedium);
                             medium.appendChild(valeurMedium);
 
                             const date = document.createElement("div");
+                            date.style.display = "flex";
+                            date.style.alignItems = "center";
+                            date.style.gap = "8px";
 
                             const labelDate = document.createElement("div");
                             labelDate.textContent = "Date : ";
 
                             const valeurDate = document.createElement("div");
                             valeurDate.textContent = consultation.date;
-                            valeurDate.className = "value";
+                            valeurDate.className = "value-inline";
 
                             date.appendChild(labelDate);
                             date.appendChild(valeurDate);

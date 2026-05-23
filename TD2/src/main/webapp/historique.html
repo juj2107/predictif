@@ -144,7 +144,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             }
             
             
-            input {
+            .value {
                 background-color: #163763;
                 color: #edd4be;
 
@@ -181,6 +181,20 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 height: auto;
             }
             
+            @keyframes pulse {
+                0%   { transform: scale(1);   opacity: 1; }
+                50%  { transform: scale(1.2); opacity: 0.9; }
+                100% { transform: scale(1);   opacity: 1; }
+            }
+
+            .rond-live {
+                display: inline-block;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: #5923d9;
+                animation: pulse 1.5s ease-in-out infinite;
+            }
             
         </style>
     </head>
@@ -261,33 +275,36 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             thM.textContent = "Médium :";
                             tr.appendChild(thM);
                             const tdMedium = document.createElement("td");
-                            let inputM = document.createElement("input");
-                            inputM.value = consultation.medium;
-                            inputM.type = "text";
-                            inputM.readOnly = true;
+                            let inputM = document.createElement("div");
+                            inputM.textContent = consultation.medium;
+                            inputM.className = "value";
                             tdMedium.appendChild(inputM);
                             tr.appendChild(tdMedium);
                             const thD = document.createElement("th");
                             thD.textContent = "Date :";
                             tr.appendChild(thD);
                             const tdDate = document.createElement("td");
-                            let inputD = document.createElement("input");
-                            inputD.value = consultation.date;
-                            inputD.readOnly = true;
-                            inputD.type = "text";
+                            let inputD = document.createElement("div");
+                            inputD.textContent = consultation.date;
+                            inputD.className = "value";
                             tdDate.appendChild(inputD);
                             tr.appendChild(tdDate);
                             
                             const thRond = document.createElement("th");
-                            const rond = document.createElement("span");
-                            rond.style.display = "inline-block";
-                            rond.style.width = "12px";
-                            rond.style.height = "12px";
-                            rond.style.borderRadius = "50%";
-                            rond.style.backgroundColor = consultation.commentaire === "en cours" ? "#2ecc71" : "#e05c5c";
+                            const rond = document.createElement("span");                            
+                            
+                            if (consultation.commentaire === "en cours") {                               
+                                rond.className = "rond-live";
+                            } else {
+                                rond.style.display = "inline-block";
+                                rond.style.width = "12px";
+                                rond.style.height = "12px";
+                                rond.style.borderRadius = "50%";
+                                rond.style.backgroundColor = "#10294a";
+                            }
+                            
                             thRond.appendChild(rond);
                             tr.insertBefore(thRond, thM);
-
                             table.appendChild(tr);
                         }
                     }
