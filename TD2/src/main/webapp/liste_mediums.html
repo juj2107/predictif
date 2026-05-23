@@ -108,11 +108,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             }
 
             .arrow {
+                width: 10px;
+                height: 10px;
+                border-right: 2px solid #edd4be;
+                border-bottom: 2px solid #edd4be;
+                transform: rotate(315deg);
                 transition: transform 0.2s;
             }
-
             .arrow.open {
-                transform: rotate(180deg);
+                transform: rotate(405deg);
             }
 
             /* contenu caché */
@@ -131,7 +135,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 margin-top: 10px;
             }
             
-            input {
+            .medium-nom {
                 background-color: #163763;
                 color: #edd4be;
 
@@ -140,9 +144,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
                 padding: 8px;
                 font-family: Arial;
-                width: 250px;
-                display: block;
-            }                        
+                width: 180px;
+                display: flex;
+                gap: 12px;
+            } 
+            
+            .medium-profession {
+                margin-right: auto;
+                padding-left: 30px;
+            }
             
             footer {
                 margin-top: auto;
@@ -172,15 +182,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             
             #message-rdv {
                 text-align: center;
-                /*color: #e05c5c; à changer*/
+                color: #edd4be;
                 font-style: italic;
-                margin-bottom: 10px;
-                visibility: hidden;
+                margin-bottom: 25px;
+                opacity: 0.9;
+            }
+
+            #message-rdv a {
+                color: #edd4be;
+                font-weight: bold;
+                text-decoration: none;
+            }
+
+            #message-rdv a:hover {
+                text-decoration: underline;
             }
             
             .bouton {
                 display: block;
-                margin: 10px auto;
+                margin-left: auto;
                 background-color: #5923d9;
                 color: #edd4be;
                 padding: 8px 14px;
@@ -196,6 +216,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 transform: translateY(-1px);
                 text-decoration: underline;
             }
+            
+            .content {
+                padding-bottom: 40px;
+            }
+            
+            img {
+                width: 20px;
+                height: 20px;
+            }
         </style>
     </head>
     <body>
@@ -203,9 +232,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <nav class="navbar">
             </nav>
         </header>
-        <h1>Liste mediums</h1>
-        <div id="message-rdv"></div>
-        <div id="liste-mediums"></div>
+        <main class="content">
+            <h1>Liste mediums</h1>
+            <div id="message-rdv"></div>
+            <div id="liste-mediums"></div>
+        </main>
+        
         <footer>
             <div class="footer-left">
                 <p>PREDICT'IF</p>
@@ -253,7 +285,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         addLink("./carte.html", "Carte clients");
                     } else {
                         addLink("./liste_mediums.html", "Mediums");
-                        addLink("./Historique.html", "Historique");
+                        addLink("./historique.html", "Historique");
                         addLink("./profil.html", "Profil Astral");
                     }
 
@@ -266,6 +298,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     navbar.appendChild(space);
                     addLink("./connexion.html", "Connexion");
                     addLink("./inscription.html", "Inscription");
+                    
+                    let message = document.getElementById("message-rdv");
+                    message.innerHTML = `<a href="./connexion.html">Connectez-vous</a> ou <a href="./inscription.html">créez un compte</a> pour prendre rendez-vous avec nos médiums.`;
                 }
             }
             
@@ -342,19 +377,28 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         const header = document.createElement("div");
                         header.className = "medium-header";
 
+                        const profil = document.createElement("div");
+                        profil.className = "medium-nom";
+                        const image = document.createElement("img");
+                        image.src="./images/profil.png";
+                        image.alt="image profil medium";
                         const nom = document.createElement("div");
-                        nom.className = "medium-nom";
                         nom.textContent = medium.denomination;
+                        profil.appendChild(image);
+                        profil.appendChild(nom);
 
                         const profession = document.createElement("div");
                         profession.className = "medium-profession";
                         profession.textContent = medium.profession;
                         
+                        //const arrow = document.createElement("img");
+                        //arrow.className = "arrow";
+                        //arrow.src = "./images/arrow.png";
+                        //arrow.alt = "ouvrir";
                         const arrow = document.createElement("div");
                         arrow.className = "arrow";
-                        arrow.textContent = "▼";
 
-                        header.appendChild(nom);
+                        header.appendChild(profil);
                         header.appendChild(profession);
                         header.appendChild(arrow);
                         
@@ -364,6 +408,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
                         const desc = document.createElement("div");
                         desc.textContent = medium.presentation;
+                        content.appendChild(desc);
 
                         let connecte = jsonResponse.connecte;
                         console.log("connecte =", connecte);
@@ -376,8 +421,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
                             content.appendChild(btn);
                         }
-
-                        content.appendChild(desc);
 
                         // toggle
                         header.addEventListener("click", () => {
