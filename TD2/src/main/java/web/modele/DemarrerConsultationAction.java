@@ -27,6 +27,7 @@ public class DemarrerConsultationAction extends Action{
             Consultation consultation = Service.recupererConsultationActuelleEmploye(employe);
             Client client = consultation.getClient();
             Boolean estPret = Service.seMettrePret(employe);
+            request.setAttribute("consultation en cours","ok");
             request.setAttribute("consultation",consultation);
             request.setAttribute("estPret",estPret);
             request.setAttribute("client",client);

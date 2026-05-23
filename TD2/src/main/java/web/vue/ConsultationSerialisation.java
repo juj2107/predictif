@@ -21,16 +21,25 @@ public class ConsultationSerialisation extends Serialisation {
 
     @Override
     public void appliquer(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Consultation consultation = (Consultation) request.getAttribute("consultation");
-        Boolean estPret = (Boolean) request.getAttribute("estPret");
-        Client client = (Client) request.getAttribute("client");
-        
-        System.out.println("serialisation "+ consultation);
+        String enCours = (String) request.getAttribute("consultation en cours");
         JsonObjectBuilder jsonContainer = Json.createObjectBuilder();
-        jsonContainer.add("medium", consultation.getMedium().getDenomination());
-        jsonContainer.add("estPret", estPret);
-        jsonContainer.add("nomClient",client.getNom());
-        jsonContainer.add("prenomClient",client.getPrenom());
+        if (enCours.equals("aucune")) {
+            System.out.println("serialisation : aucune consultation en cours");
+            jsonContainer.add("enCours", "aucune");
+        } else {
+            Consultation consultation = (Consultation) request.getAttribute("consultation");
+            Boolean estPret = (Boolean) request.getAttribute("estPret");
+            Client client = (Client) request.getAttribute("client");
+
+            System.out.println("serialisation "+ consultation);
+
+            jsonContainer.add("enCours", "ok");
+            jsonContainer.add("medium", consultation.getMedium().getDenomination());
+            jsonContainer.add("estPret", estPret);
+            jsonContainer.add("nomClient",client.getNom());
+            jsonContainer.add("prenomClient",client.getPrenom());
+        }
+        
         
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

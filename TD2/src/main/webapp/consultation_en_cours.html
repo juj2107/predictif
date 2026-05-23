@@ -72,9 +72,42 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     console.log("Click sur le bouton 'faire prediction'");
                     fairePrediction();
                 });
+                document.getElementById('btn-deco').addEventListener('click', function() {
+                    console.log("Click sur le bouton 'deconnexion'");
+                    deconnexion();
+                });
             };
             
-            
+            async function deconnexion() {
+                console.log("Appel de l'Action: Deconnexion");
+                    let url = './ActionServlet?todo=deconnexion';
+                    let jsonResponse = await fetch(url)
+                            .then(
+                                function(httpResponse) {
+                                    return httpResponse.json();
+                                }
+                            )
+                            .catch(
+                                function(error) {
+                                    console.log(error);
+                                    return null;
+                                }
+                            );
+                    console.log(jsonResponse);
+                    if (jsonResponse) {
+                        let deconnexion  = jsonResponse.deconnexion;
+                        if (deconnexion === false){
+                            console.log("deconnexion a échoué");
+                        }else{
+                            console.log("deconnexion ok");
+                            window.location.href = "./index.html";
+                        }
+
+
+
+
+                    }
+            }
             
             async function recupererConsultation() {
                 console.log("Appel de l'Action : récupérer consultation");

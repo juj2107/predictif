@@ -8,29 +8,375 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <title>Démarrer consultation</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <style>
+            body {
+                margin: 0;
+                font-family: Arial;
+                background-image: url("./images/fond.png");
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            header {
+                background-color: #163763;
+                padding: 10px 20px;
+                border-bottom: 2px solid #edd4be;
+            }
+
+            .navbar {
+                background-color: #163763;
+                padding: 10px 20px;
+                gap: 40px;
+                align-items: center;
+                display: flex;
+                width: 100%;
+                justify-content: space-evenly;
+            }
+
+            .nav-item {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #10294a;
+                color: #edd4be;
+                padding: 8px 14px;
+                border-radius: 6px;
+                text-decoration: none;
+                font-weight: bold;
+                border: none;
+                cursor: pointer;
+                transition: 0.2s;
+                font: inherit;
+                line-height: normal;
+                position: relative;
+            }
+
+            .nav-item:hover {
+                transform: translateY(-1px);
+                text-decoration: underline;
+            }
+            
+            @font-face {
+                font-family: "Bell MT";
+                src: url("./fonts/bell-mt-italic.ttf") format("truetype");
+                font-style: italic;
+                font-weight: normal;
+            }
+            
+            h1 {
+                font-size: 4.5rem;
+                color: #edd4be;
+                margin-bottom: 20px;
+                margin-top: 50px;
+                text-align: center;
+                font-family: "Bell MT", serif;
+                font-style: italic;
+                text-shadow:
+                -1.5px -1.5px 0 #997c62,
+                 1.5px -1.5px 0 #997c62,
+                -1.5px  1.5px 0 #997c62,
+                 1.5px  1.5px 0 #997c62;
+            }
+            
+            h2 {
+                font-size: 2.5rem;
+                color: #edd4be;
+                text-shadow: 0 0 10px rgba(227, 187, 152, 0.8);
+                margin-bottom: 30px;
+                margin-top: 0px;
+                font-family: "Bell MT", serif;
+                font-style: italic;
+                text-align: center;
+            }
+            
+            h3 {
+                color: #edd4be;
+                text-align: center;
+                margin-bottom: 10px;
+                text-shadow: 0 0 10px rgba(227, 187, 152, 0.8);
+            }
+            
+            #liste-mediums {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+
+            .medium-card {
+                background-color: #10294a;
+                color: #edd4be;
+                width: auto;
+                border-radius: 12px;
+                padding: 15px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            }
+
+            .medium-header {
+                display: flex;
+                justify-content: space-between;
+                cursor: pointer;
+                font-weight: bold;
+                align-items: center;
+            }
+
+            .arrow {
+                width: 10px;
+                height: 10px;
+                border-right: 2px solid #edd4be;
+                border-bottom: 2px solid #edd4be;
+                transform: rotate(315deg);
+                transition: transform 0.2s;
+            }
+            .arrow.open {
+                transform: rotate(405deg);
+            }
+
+            .medium-content {
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                transition: all 0.25s ease;
+                margin-top: 0;
+            }
+
+            .medium-content.open {
+                max-height: 300px;
+                opacity: 1;
+                margin-top: 10px;
+            }
+            
+            .medium-nom {
+                background-color: #163763;
+                color: #edd4be;
+
+                border: 1px solid #163763;
+                border-radius: 6px;
+
+                padding: 8px;
+                font-family: Arial;
+                width: 180px;
+                display: flex;
+                gap: 12px;
+            } 
+            
+            .medium-profession {
+                margin-right: auto;
+                padding-left: 30px;
+            }
+            
+            footer {
+                margin-top: auto;
+                background-color: #163763;
+                box-sizing: border-box;
+                display: flex;
+                justify-content: center;
+                align-items: stretch;
+                gap: 40px;
+                border-top: 2px solid #edd4be;
+                color: #edd4be;
+            }
+
+            .footer-left,
+            .footer-right {
+                width: 630px;
+            }
+
+            .footer-separator {
+                width: 2px;
+                background-color: #edd4be;
+                height: auto;
+            }
+            .nav-spacer {
+                width: 400px;
+            }
+            
+            .bouton {
+                display: block;
+                margin-left: auto;
+                background-color: #5923d9;
+                color: #edd4be;
+                padding: 8px 14px;
+                border-radius: 6px;
+                font-weight: bold;
+                border: none;
+                cursor: pointer;
+                transition: 0.2s;
+                font-family: Arial;
+            }
+            
+            .bouton:hover {
+                transform: translateY(-1px);
+                text-decoration: underline;
+            }
+            
+            .content {
+                padding-bottom: 40px;
+            }
+            
+            table {
+                background-color: #10294a;
+
+                border-radius: 12px;
+                overflow: hidden;
+
+                padding: 15px;
+
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                color:#edd4be;
+                text-align: center;
+                width: 500px;
+                margin: 0;
+            }
+            
+            th {
+                text-align: right;
+                vertical-align: middle;
+                white-space: nowrap;
+                padding: 10px 12px;
+            }
+            
+            td {
+                text-align: left;
+                padding: 10px 12px;
+            }
+            
+            
+            .value {
+                background-color: #163763;
+                color: #edd4be;
+
+                border: 1px solid #163763;
+                border-radius: 6px;
+
+                padding: 8px;
+                font-family: Arial;
+                width: 150px;
+                display: block;
+            }
+            
+            #demarrer {
+                display: block;
+                margin: 10px auto;
+                background-color: #5923d9;
+                color: #edd4be;
+                padding: 8px 14px;
+                border-radius: 6px;
+                font-weight: bold;
+                border: none;
+                cursor: pointer;
+                transition: 0.2s;
+                font-family: Arial;
+            }
+
+            #demarrer:hover {
+                transform: translateY(-1px);
+                text-decoration: underline;
+            }
+            
+            #conteneur-tableaux {
+                display: flex;
+                gap: 80px;
+                justify-content: center;
+                align-items: flex-start;
+                padding: 20px;
+                flex-wrap: wrap;
+            }
+            
+            #historique {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                width: 500px;
+            }
+        </style>
     </head>
     <body>
-        <a href="./index.html"> Accueil </a>
+        <header>
+            <nav class="navbar">
+                <a href="./index.html" class="nav-item">Accueil</a>
+                <a href="./demarrer_consultation.html" class="nav-item">Ma consultation</a>
+                <a href="./statistiques.html" class="nav-item">Statistiques</a>
+                <a href="./carte.html" class="nav-item">Carte clients</a>
+                <button id="btn-deco" class="nav-item">Déconnexion</button>
+            </nav>
+        </header>
         <h1 id="nom-client"></h1>
         <h2 id="nom-medium"></h2>
-        <div id="conteneur-tableaux"> <!-- pour css, pour mettre les 2 tableaux à côté-->
-            <table id="profil-astral"></table>
-            <table id="historique"></table>
+        <div id="conteneur-tableaux">
+            <div>
+                <h3>Profil astral</h3>
+                <table id="profil-astral"></table>
+            </div>
+            <div>
+                <h3>Historique</h3>
+                <div id="historique"></div>
+            </div>
         </div>
         <button id="demarrer">Démarrer la consultation</button>
-        
+        <footer>
+            <div class="footer-left">
+                <p>PREDICT'IF</p>
+                <p>INSA Lyon, 31 Avenue Jean Capelle</p>
+                <p>69621, Villeurbanne</p>
+            </div>
+            <div class="footer-separator"></div>
+            <div class="footer-right">
+                <p>CONTACTS</p>
+                <p>contact@predictif.arnaque</p>
+                <p>07 68 95 11 60</p>
+            </div>
+        </footer>
         
         <script>
             function initPage() {
                 console.log("Initialisation de la page");
-                afficherProfil();
-                listerConsultations();
                 recupererConsultation();
                 document.getElementById('demarrer').addEventListener('click', function() {
                     console.log("Click sur le bouton 'démarrer consultation'");
                     demarrerConsultation();
                 });
+                document.getElementById('btn-deco').addEventListener('click', function() {
+                    console.log("Click sur le bouton 'deconnexion'");
+                    deconnexion();
+                });
             };
+            
+            async function deconnexion() {
+                console.log("Appel de l'Action: Deconnexion");
+                    let url = './ActionServlet?todo=deconnexion';
+                    let jsonResponse = await fetch(url)
+                            .then(
+                                function(httpResponse) {
+                                    return httpResponse.json();
+                                }
+                            )
+                            .catch(
+                                function(error) {
+                                    console.log(error);
+                                    return null;
+                                }
+                            );
+                    console.log(jsonResponse);
+                    if (jsonResponse) {
+                        let deconnexion  = jsonResponse.deconnexion;
+                        if (deconnexion === false){
+                            console.log("deconnexion a échoué");
+                        }else{
+                            console.log("deconnexion ok");
+                            window.location.href = "./index.html";
+                        }
+
+
+
+
+                    }
+            }   
             
             async function afficherProfil() {
                 console.log("Appel de l'Action: afficher le profil");
@@ -55,33 +401,31 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     let signeC = jsonResponse.signeC;
                     let couleur = jsonResponse.couleur;
                     let animal = jsonResponse.animal;
-                    let prenom = jsonResponse.prenom;
-                    let nom = jsonResponse.nom;
-                    
-                    let messBienvenue = document.getElementById("nom-client");
-                    messBienvenue.textContent = "Ma Consultation avec "+prenom+" "+nom;
                             
                     const table = document.getElementById("profil-astral");
-                    let row1 = table.insertRow();
-                    let cellNom = row1.insertCell(0);
-                    let cellContenu = row1.insertCell(1);
-                    cellNom.innerHTML = "Signe du zodiaque :";
-                    cellContenu.innerHTML = signeZ;
-                    let row2 = table.insertRow();
-                    cellNom = row2.insertCell(0);
-                    cellContenu = row2.insertCell(1);
-                    cellNom.innerHTML = "Signe chinois :";
-                    cellContenu.innerHTML = signeC;
-                    let row3 = table.insertRow();
-                    cellNom = row3.insertCell(0);
-                    cellContenu = row3.insertCell(1);
-                    cellNom.innerHTML = "Couleur :";
-                    cellContenu.innerHTML = couleur;
-                    let row4 = table.insertRow();
-                    cellNom = row4.insertCell(0);
-                    cellContenu = row4.insertCell(1);
-                    cellNom.innerHTML = "Animal totem :";
-                    cellContenu.innerHTML = animal;                    
+                    
+                    const donnees = [
+                        ["Signe du zodiaque :", signeZ],
+                        ["Signe chinois :",     signeC],
+                        ["Couleur :",           couleur],
+                        ["Animal totem :",      animal]
+                    ];
+
+                    for (let [label, valeur] of donnees) {
+                        let row = document.createElement("tr");
+
+                        let th = document.createElement("th");
+                        th.textContent = label;
+                        row.appendChild(th);
+
+                        let td = document.createElement("td");
+                        let div = document.createElement("div");
+                        div.className = "value";
+                        div.textContent = valeur;
+                        td.appendChild(div);
+                        row.appendChild(td);
+                        table.appendChild(row);
+                    }
                     
                     
                     
@@ -107,26 +451,82 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     console.log("Affichage de l'historique");
                     let historique = jsonResponse.historique;
                     
-                    const table = document.getElementById("historique");
+                    const container = document.getElementById("historique");
+                    
+                    let nbConsultations = 0;
+
                     for (let consultation of historique) {
-                        console.log(consultation.medium, consultation.date);
-                        const tr = document.createElement("tr");
-                        const thM = document.createElement("th");
-                        thM.textContent = "Médium :";
-                        tr.appendChild(thM);
-                        const tdMedium = document.createElement("td");
-                        tdMedium.textContent = consultation.medium;
-                        tr.appendChild(tdMedium);
-                        const thD = document.createElement("th");
-                        thD.textContent = "Date :";
-                        tr.appendChild(thD);
-                        const tdDate = document.createElement("td");
-                        tdDate.textContent = consultation.date;
-                        tr.appendChild(tdDate);
-                        table.appendChild(tr);
+                        if (!consultation.commentaire === "en cours") {
+                            nbConsultations += 1;
+                            const card = document.createElement("div");
+                            card.className = "medium-card";
+
+                            // HEADER
+                            const header = document.createElement("div");
+                            header.className = "medium-header";
+
+                            const medium = document.createElement("div");
+
+                            const labelMedium = document.createElement("div");
+                            labelMedium.textContent = "Médium : ";
+
+                            const valeurMedium = document.createElement("div");
+                            valeurMedium.textContent = consultation.medium;
+                            valeurMedium.className = "value";
+
+                            medium.appendChild(labelMedium);
+                            medium.appendChild(valeurMedium);
+
+                            const date = document.createElement("div");
+
+                            const labelDate = document.createElement("div");
+                            labelDate.textContent = "Date : ";
+
+                            const valeurDate = document.createElement("div");
+                            valeurDate.textContent = consultation.date;
+                            valeurDate.className = "value";
+
+                            date.appendChild(labelDate);
+                            date.appendChild(valeurDate);
+
+
+                            header.appendChild(medium);
+                            header.appendChild(date);
+
+                            const arrow = document.createElement("div");
+                            arrow.className = "arrow";
+
+                            header.appendChild(arrow);
+
+                            // CONTENU DEROULANT
+                            const content = document.createElement("div");
+                            content.className = "medium-content";
+
+                            const commentaire = document.createElement("div");
+                            commentaire.textContent = consultation.commentaire;
+
+                            content.appendChild(commentaire);
+
+                            // TOGGLE
+                            header.addEventListener("click", () => {
+                                content.classList.toggle("open");
+                                arrow.classList.toggle("open");
+                            });
+
+                            card.appendChild(header);
+                            card.appendChild(content);
+
+                            container.appendChild(card);
+                        }
                     }
                     
-                    
+                    if (nbConsultations === 0) {
+                        const card = document.createElement("div");
+                        card.className = "medium-card";
+                        card.textContent = "Une première guidance vous est confiée aujourd’hui.";
+                        card.style.textAlign = "center";
+                        container.appendChild(card);
+                    }
                     
                 }
             }
@@ -147,11 +547,43 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         );
                 console.log(jsonResponse);
                 if (jsonResponse) {
-                    console.log("Affichage du nom du médium à incarner");
-                    let medium = jsonResponse.medium;
+                    let consEnCours = jsonResponse.enCours;
+                    if (consEnCours === "ok") {
+                        console.log("Affichage du nom du médium à incarner");
+                        let medium = jsonResponse.medium;
+                        let prenom = jsonResponse.prenomClient;
+                        let nom = jsonResponse.nomClient;
+
+                        let messBienvenue = document.getElementById("nom-client");
+                        messBienvenue.textContent = "Ma Consultation avec "+prenom+" "+nom;
+
+                        let mess = document.getElementById("nom-medium");
+                        mess.textContent = "Vous incarnez "+medium+" !";
+                        
+                        afficherProfil();
+                        listerConsultations();
+                    } else {
+                        console.log("Aucune consultation en cours");
+                        let messBienvenue = document.getElementById("nom-client");
+                        messBienvenue.textContent = "Ma consultation";
+                        
+                        // cacher les tableaux et le bouton
+                        document.getElementById("conteneur-tableaux").style.display = "none";
+                        document.getElementById("demarrer").style.display = "none";
+
+                        // afficher un message
+                        const message = document.createElement("div");
+                        message.className = "medium-card";
+                        message.innerHTML = "<p>Les étoiles brillent, mais personne ne les consulte.</p><p>Aucune consultation ne vous est assignée.</p>";
+                        message.style.textAlign = "center";
+                        message.style.color = "#edd4be";
+                        message.style.fontStyle = "italic";
+                        message.style.marginTop = "20px";
+                        message.style.width = "500px";
+                        message.style.margin = "20px auto";
+                        document.body.insertBefore(message, document.getElementById("demarrer"));
+                    }
                     
-                    let mess = document.getElementById("nom-medium");
-                    mess.textContent = "Vous incarnez "+medium+" !";
                     
                 }
             }

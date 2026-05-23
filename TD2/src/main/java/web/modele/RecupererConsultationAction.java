@@ -24,9 +24,14 @@ public class RecupererConsultationAction extends Action {
             Integer id = (Integer)session.getAttribute("userId");
             Employe employe = Service.recupererEmployeParId(id);
             Consultation consultation = Service.recupererConsultationActuelleEmploye(employe);
-            request.setAttribute("client", consultation.getClient());
-            request.setAttribute("consultation",consultation);
-            request.setAttribute("estPret",false);
+            if (consultation == null) {
+                request.setAttribute("consultation en cours","aucune");
+            } else {
+                request.setAttribute("consultation en cours","ok");
+                request.setAttribute("consultation",consultation);
+                request.setAttribute("client", consultation.getClient());
+                request.setAttribute("estPret",false);
+            }
         }
         
         System.out.println("\n action récupérer consultation de l'employé connecté : " );

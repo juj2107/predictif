@@ -277,6 +277,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             inputD.type = "text";
                             tdDate.appendChild(inputD);
                             tr.appendChild(tdDate);
+                            
+                            const thRond = document.createElement("th");
+                            const rond = document.createElement("span");
+                            rond.style.display = "inline-block";
+                            rond.style.width = "12px";
+                            rond.style.height = "12px";
+                            rond.style.borderRadius = "50%";
+                            rond.style.backgroundColor = consultation.commentaire === "en cours" ? "#2ecc71" : "#e05c5c";
+                            thRond.appendChild(rond);
+                            tr.insertBefore(thRond, thM);
+
                             table.appendChild(tr);
                         }
                     }
@@ -309,7 +320,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         }else{
                             console.log("deconnexion ok");
                             window.location.href = "./index.html";
-                            verifierConnexion();
                         }
 
 
