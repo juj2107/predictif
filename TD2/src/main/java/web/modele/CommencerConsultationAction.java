@@ -29,7 +29,10 @@ public class CommencerConsultationAction extends Action {
             Client client = Service.recupererClientParId(id);
             String idMedium = request.getParameter("medium");
             Medium medium = Service.recupererMediumParId(Integer.valueOf(idMedium));
+            System.out.println("client = " + client);
+            System.out.println("medium = " + medium);
             Consultation consultation = Service.demanderConsultation(client, medium);
+            System.out.println("consultation = " + consultation);
             request.setAttribute("consultation", consultation);
             request.setAttribute("connecte", true);
         } else {
