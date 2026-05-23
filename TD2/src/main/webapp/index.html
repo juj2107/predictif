@@ -203,10 +203,10 @@
                     addLink("./connexion.html", "Connexion");
                     addLink("./inscription.html", "Inscription");
                 }
-        }
+            }
         
-        async function deconnexion() {
-            console.log("Appel de l'Action: Deconnexion");
+            async function deconnexion() {
+                console.log("Appel de l'Action: Deconnexion");
                 let url = './ActionServlet?todo=deconnexion';
                 let jsonResponse = await fetch(url)
                         .then(
@@ -230,30 +230,26 @@
                         window.location.href = "./index.html";
                         verifierConnexion();
                     }
-                    
-                    
-                    
-                    
                 }
-        }
+            }
 
-        function addLink(href, text) {
-            const a = document.createElement("a");
-            a.href = href;
-            a.textContent = text;
-            a.className = "nav-item";
-            navbar.appendChild(a);
-        }
+            function addLink(href, text) {
+                const a = document.createElement("a");
+                a.href = href;
+                a.textContent = text;
+                a.className = "nav-item";
+                navbar.appendChild(a);
+            }
 
-        function addButton(text, onClick) {
-            const b = document.createElement("button");
-            b.textContent = text;
-            b.className = "nav-item";
-            b.onclick = onClick;
-            navbar.appendChild(b);
-        }
+            function addButton(text, onClick) {
+                const b = document.createElement("button");
+                b.textContent = text;
+                b.className = "nav-item";
+                b.onclick = onClick;
+                navbar.appendChild(b);
+            }
 
-        window.onload = verifierConnexion;
+            window.onload = verifierConnexion;
         </script>
     </body>
 </html>

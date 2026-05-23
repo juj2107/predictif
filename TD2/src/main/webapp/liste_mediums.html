@@ -8,17 +8,310 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <title>Liste mediums</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <style>
+            body {
+                margin: 0;
+                font-family: Arial;
+                background-image: url("./images/fond.png");
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            header {
+                background-color: #163763;
+                padding: 10px 20px;
+                border-bottom: 2px solid #edd4be;
+            }
+
+            .navbar {
+                background-color: #163763;
+                padding: 10px 20px;
+                gap: 40px;
+                align-items: center;
+                display: flex;
+                width: 100%;
+                justify-content: space-evenly;
+            }
+
+            .nav-item {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #10294a;
+                color: #edd4be;
+                padding: 8px 14px;
+                border-radius: 6px;
+                text-decoration: none;
+                font-weight: bold;
+                border: none;
+                cursor: pointer;
+                transition: 0.2s;
+                font: inherit;
+                line-height: normal;
+                position: relative;
+            }
+
+            .nav-item:hover {
+                transform: translateY(-1px);
+                text-decoration: underline;
+            }
+            
+            @font-face {
+                font-family: "Bell MT";
+                src: url("./fonts/bell-mt-italic.ttf") format("truetype");
+                font-style: italic;
+                font-weight: normal;
+            }
+            
+            h1 {
+                font-size: 4.5rem;
+                color: #edd4be;
+                margin-bottom: 20px;
+                margin-top: 50px;
+                text-align: center;
+                font-family: "Bell MT", serif;
+                font-style: italic;
+                text-shadow:
+                -1.5px -1.5px 0 #997c62,
+                 1.5px -1.5px 0 #997c62,
+                -1.5px  1.5px 0 #997c62,
+                 1.5px  1.5px 0 #997c62;
+            }
+            
+            #liste-mediums {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+
+            .medium-card {
+                background-color: #10294a;
+                color: #edd4be;
+                width: 500px;
+                border-radius: 12px;
+                padding: 15px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            }
+
+            .medium-header {
+                display: flex;
+                justify-content: space-between;
+                cursor: pointer;
+                font-weight: bold;
+                align-items: center;
+            }
+
+            .arrow {
+                transition: transform 0.2s;
+            }
+
+            .arrow.open {
+                transform: rotate(180deg);
+            }
+
+            /* contenu caché */
+            .medium-content {
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                transition: all 0.25s ease;
+                margin-top: 0;
+            }
+
+            /* contenu ouvert */
+            .medium-content.open {
+                max-height: 300px;
+                opacity: 1;
+                margin-top: 10px;
+            }
+            
+            input {
+                background-color: #163763;
+                color: #edd4be;
+
+                border: 1px solid #163763;
+                border-radius: 6px;
+
+                padding: 8px;
+                font-family: Arial;
+                width: 250px;
+                display: block;
+            }                        
+            
+            footer {
+                margin-top: auto;
+                background-color: #163763;
+                box-sizing: border-box;
+                display: flex;
+                justify-content: center;
+                align-items: stretch;
+                gap: 40px;
+                border-top: 2px solid #edd4be;
+                color: #edd4be;
+            }
+
+            .footer-left,
+            .footer-right {
+                width: 630px;
+            }
+
+            .footer-separator {
+                width: 2px;
+                background-color: #edd4be;
+                height: auto;
+            }
+            .nav-spacer {
+                width: 400px;
+            }
+            
+            #message-rdv {
+                text-align: center;
+                /*color: #e05c5c; à changer*/
+                font-style: italic;
+                margin-bottom: 10px;
+                visibility: hidden;
+            }
+            
+            .bouton {
+                display: block;
+                margin: 10px auto;
+                background-color: #5923d9;
+                color: #edd4be;
+                padding: 8px 14px;
+                border-radius: 6px;
+                font-weight: bold;
+                border: none;
+                cursor: pointer;
+                transition: 0.2s;
+                font-family: Arial;
+            }
+            
+            .bouton:hover {
+                transform: translateY(-1px);
+                text-decoration: underline;
+            }
+        </style>
     </head>
     <body>
-        <a href="./index.html"> Accueil </a>
+        <header>
+            <nav class="navbar">
+            </nav>
+        </header>
         <h1>Liste mediums</h1>
         <div id="message-rdv"></div>
-        <table id="liste-mediums"></table>
+        <div id="liste-mediums"></div>
+        <footer>
+            <div class="footer-left">
+                <p>PREDICT'IF</p>
+                <p>INSA Lyon, 31 Avenue Jean Capelle</p>
+                <p>69621, Villeurbanne</p>
+            </div>
+            <div class="footer-separator"></div>
+            <div class="footer-right">
+                <p>CONTACTS</p>
+                <p>contact@predictif.arnaque</p>
+                <p>07 68 95 11 60</p>
+            </div>
+        </footer>
         <script>
             function initPage() {
                 console.log("Initialisation de la page");
                 listerMediums();
+                verifierConnexion();
             };
+            
+            let navbar = document.querySelector(".navbar");
+            async function verifierConnexion() {
+                let url = './ActionServlet?todo=verifier-connexion';
+                let jsonResponse = await fetch(url)
+                        .then(
+                            function(httpResponse) {
+                                return httpResponse.json();
+                            }
+                        )
+                        .catch(
+                            function(error) {
+                                console.log(error);
+                                return null;
+                            }
+                        );
+                console.log(jsonResponse);
+                
+                addLink("./index.html", "Accueil");
+                
+                if (jsonResponse.connexion === true) {
+
+                    if (jsonResponse.type === "employe") {
+                        addLink("./demarrer_consultation.html", "Ma consultation");
+                        addLink("./statistiques.html", "Statistiques");
+                        addLink("./carte.html", "Carte clients");
+                    } else {
+                        addLink("./liste_mediums.html", "Mediums");
+                        addLink("./Historique.html", "Historique");
+                        addLink("./profil.html", "Profil Astral");
+                    }
+
+                    addButton("Déconnexion", deconnexion);
+
+                } else {
+                    addLink("./liste_mediums.html", "Mediums");
+                    let space = document.createElement("div");
+                    space.className = "nav-spacer";
+                    navbar.appendChild(space);
+                    addLink("./connexion.html", "Connexion");
+                    addLink("./inscription.html", "Inscription");
+                }
+            }
+            
+            function addLink(href, text) {
+                const a = document.createElement("a");
+                a.href = href;
+                a.textContent = text;
+                a.className = "nav-item";
+                navbar.appendChild(a);
+            }
+
+            function addButton(text, onClick) {
+                const b = document.createElement("button");
+                b.textContent = text;
+                b.className = "nav-item";
+                b.onclick = onClick;
+                navbar.appendChild(b);
+            }
+            
+            async function deconnexion() {
+                console.log("Appel de l'Action: Deconnexion");
+                let url = './ActionServlet?todo=deconnexion';
+                let jsonResponse = await fetch(url)
+                        .then(
+                            function(httpResponse) {
+                                return httpResponse.json();
+                            }
+                        )
+                        .catch(
+                            function(error) {
+                                console.log(error);
+                                return null;
+                            }
+                        );
+                console.log(jsonResponse);
+                if (jsonResponse) {
+                    let deconnexion  = jsonResponse.deconnexion;
+                    if (deconnexion === false){
+                        console.log("deconnexion a échoué");
+                    }else{
+                        console.log("deconnexion ok");
+                        window.location.href = "./index.html";
+                        verifierConnexion();
+                    }
+                }
+            }
             
             async function listerMediums() {
                 console.log("Appel de l'Action: Consulter liste mediums");
@@ -38,51 +331,64 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 console.log(jsonResponse);
                 if (jsonResponse) {
                     console.log('Affichage de la liste de mediums');
-                    // TODO : afficher les demandes
                     let mediums = jsonResponse.mediums;
-                    const table = document.getElementById("liste-mediums");
+                    const container = document.getElementById("liste-mediums");
+
+                    
                     for (let medium of mediums) {
-                        console.log(medium.denomination, medium.genre, medium.presentation);
-                        const cell = document.createElement("tr");
+                        const card = document.createElement("div");
+                        card.className = "medium-card";
                         
-                        //première ligne = nom + profession
-                        const trM = document.createElement("tr");
-                        const tdMedium = document.createElement("td");
-                        tdMedium.textContent = medium.denomination;
-                        trM.appendChild(tdMedium);
-                        const tdProfession = document.createElement("td");
-                        tdProfession.textContent = medium.profession;
-                        trM.appendChild(tdProfession);
-                        cell.appendChild(trM);
+                        const header = document.createElement("div");
+                        header.className = "medium-header";
+
+                        const nom = document.createElement("div");
+                        nom.className = "medium-nom";
+                        nom.textContent = medium.denomination;
+
+                        const profession = document.createElement("div");
+                        profession.className = "medium-profession";
+                        profession.textContent = medium.profession;
                         
-                        //deuxième ligne = description
-                        const trD = document.createElement("tr");
-                        const tdDescription = document.createElement("td");
-                        tdDescription.setAttribute("colspan",2);
-                        tdDescription.textContent = medium.presentation;
-                        trD.appendChild(tdDescription);
-                        cell.appendChild(trD);
+                        const arrow = document.createElement("div");
+                        arrow.className = "arrow";
+                        arrow.textContent = "▼";
+
+                        header.appendChild(nom);
+                        header.appendChild(profession);
+                        header.appendChild(arrow);
                         
+                        // CONTENU (caché au départ)
+                        const content = document.createElement("div");
+                        content.className = "medium-content";
+
+                        const desc = document.createElement("div");
+                        desc.textContent = medium.presentation;
+
                         let connecte = jsonResponse.connecte;
                         console.log("connecte =", connecte);
                         if (connecte === true) {
-                            //troisième ligne = bouton prendre rdv
-                            const trB = document.createElement("tr");
-                            const tdBouton = document.createElement("td");
-                            tdBouton.setAttribute("colspan",2);
-                            const boutonRdv = document.createElement("button");
-                            boutonRdv.textContent = "Prendre rendez-vous";
-                            boutonRdv.dataset.idMedium=medium.id;
-                            boutonRdv.addEventListener("click",commencerConsultation);
+                            const btn = document.createElement("button");
+                            btn.className = "bouton";
+                            btn.textContent = "Prendre rendez-vous";
+                            btn.dataset.idMedium = medium.id;
+                            btn.addEventListener("click", commencerConsultation);
 
-                            tdBouton.appendChild(boutonRdv);
-                            trB.appendChild(tdBouton);
-                            cell.appendChild(trB);
+                            content.appendChild(btn);
                         }
+
+                        content.appendChild(desc);
+
+                        // toggle
+                        header.addEventListener("click", () => {
+                            content.classList.toggle("open");
+                            arrow.classList.toggle("open");
+                        });
+
+                        card.appendChild(header);
+                        card.appendChild(content);
                         
-                        
-                        
-                        table.appendChild(cell);
+                        container.appendChild(card);
                     }
                     
                     
