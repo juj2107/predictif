@@ -5,6 +5,7 @@
 package util;
 
 import jakarta.json.Json;
+import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.io.StringReader;
@@ -97,11 +98,17 @@ public class ApiInteraction {
             result = null;
         }
         List<String> liste = null;
-        if(result != null){
-             liste = new ArrayList<>();
-            liste.add(result.getJsonArray("features").getJsonObject(0).getJsonObject("geometry").getJsonArray("coordinates").getJsonNumber(0).toString());
-            liste.add(result.getJsonArray("features").getJsonObject(0).getJsonObject("geometry").getJsonArray("coordinates").getJsonNumber(1).toString()); 
+
+        if (result != null) {
+            JsonArray features = result.getJsonArray("features");
+            if (features != null && !features.isEmpty()) {
+                liste = new ArrayList<>();
+                JsonArray coordinates = features.getJsonObject(0).getJsonObject("geometry").getJsonArray("coordinates");
+                liste.add(coordinates.getJsonNumber(0).toString());
+                liste.add(coordinates.getJsonNumber(1).toString());
+            }
         }
+
         return liste;
     }
     

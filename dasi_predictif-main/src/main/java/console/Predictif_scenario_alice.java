@@ -7,7 +7,6 @@ import dao.JpaUtil;
 import java.time.LocalDate;
 import metier.modele.Client;
 import metier.modele.Consultation;
-import metier.modele.Employe;
 import metier.service.Service;
 import metier.service.ServiceInitialisation;
 
@@ -37,7 +36,7 @@ public class Predictif_scenario_alice {
         System.out.println(Service.recupererListeMediums());
         Client client = new Client("Pascal", "Alice", "86 Rue des Lilas Marcq-en-Baroeul 59100", "alice.pascal@free.fr", "1234", "0688774455", LocalDate.parse("2005-03-26"));
         System.out.println("Inscription d'Alice : ");
-        if(!Service.inscrireClient(client)){
+        if(!Service.inscrireClient(client).equals("ok")){
             System.out.println("L'inscription à échoué ! Relancez le test.");
             return;
         }

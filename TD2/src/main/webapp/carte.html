@@ -187,6 +187,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             function initPage() {
                 console.log("Initialisation de la page");
                 initMap();
+                document.getElementById('btn-deco').addEventListener('click', function() {
+                    console.log("Click sur le bouton 'deconnexion'");
+                    deconnexion();
+                });
             };
             
             let googleMapInstance = null;
@@ -224,7 +228,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     let clients = jsonResponse.clients;
                     for (let client of clients) {
                         createClientMarker(client);
-    }
+                    }
                 }
             }
             function createClientMarker(client) {

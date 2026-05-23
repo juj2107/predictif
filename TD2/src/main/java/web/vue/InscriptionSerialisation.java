@@ -19,15 +19,13 @@ public class InscriptionSerialisation extends Serialisation {
     
     @Override
     public void appliquer(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String inscription = (String) request.getAttribute("inscription").toString();
-        String id = (String) request.getAttribute("id").toString();
-        String message = (String) request.getAttribute("message");
+        String inscription = String.valueOf(request.getAttribute("inscription"));
+        String id = String.valueOf(request.getAttribute("id"));
         System.out.println("serialisation inscription : "+ inscription);
         JsonObjectBuilder jsonContainer = Json.createObjectBuilder();
         
         jsonContainer.add("id",id);
         jsonContainer.add("inscription",inscription);
-        jsonContainer.add("message",message);
 
 
         response.setContentType("application/json");

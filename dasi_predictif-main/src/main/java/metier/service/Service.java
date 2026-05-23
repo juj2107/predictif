@@ -25,18 +25,18 @@ import util.Message;
  */
 public class Service {
 
-    static public Boolean inscrireClient(Client client) {
-        Boolean inscriptionWorked = true;
+    static public String inscrireClient(Client client) {
+        String inscriptionWorked = "ok";
         client.setProfilAstral(ApiInteraction.getAPIProfilAstral(client));
         if (client.getProfilAstral() == null) {
-            inscriptionWorked = false;
+            inscriptionWorked = "profil";
         }
         client.setGps(ApiInteraction.getGpsCoordinates(client));
         if(client.getGps() == null){
-            inscriptionWorked = false;
+            inscriptionWorked = "gps";
         }
         
-        if(inscriptionWorked){
+        if(inscriptionWorked.equals("ok")){
             JpaUtil.creerContextePersistance();
             try {
                 JpaUtil.ouvrirTransaction();
@@ -45,12 +45,12 @@ public class Service {
                 envoyerMailInscription(client);
             } catch (Exception ex) {
                 System.getLogger(Service.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-                inscriptionWorked = false;
+                inscriptionWorked = "bdd";
             } finally {
                 JpaUtil.fermerContextePersistance();
             }
         }
-        if(!inscriptionWorked){
+        if(!inscriptionWorked.equals("ok")){
             envoyerMailInscriptionFail(client);
         }
         return inscriptionWorked;

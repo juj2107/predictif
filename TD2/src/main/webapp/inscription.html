@@ -247,7 +247,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <label for="dateNaissance">Date de naissance :</label>
                 </th>
                 <td>
-                    <input type="text" id="dateNaissance" tabindex="3"/>
+                    <input type="date" id="dateNaissance" tabindex="3"/>
                 </td>
                 <th>
                     <label for="mdp">Mot de passe :</label>
@@ -374,20 +374,41 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         );
                 console.log(jsonResponse);
                 if (jsonResponse) {
-                    let inscription = jsonResponse.inscription;
-                    if (inscription === "false"){
-                        console.log("inscription a échoué");
-                        let mess = document.getElementById("message-erreur");
-                        mess.textContent = jsonResponse.message;
-                        mess.style.visibility = "visible";
-                    }else{
+                    let resultat = jsonResponse.inscription;
+                    if (resultat === "ok") {
                         console.log('inscription réussie');
                         window.location.href = "./connexion.html";
                     }
-                    
-                    
-                    
-                    
+                    else if (resultat === "gps") {
+                        console.log("inscription a échoué");
+                        let mess = document.getElementById("message-erreur");
+                        mess.textContent = "Veuillez entrer une adresse valide.";
+                        mess.style.visibility = "visible";
+                    }
+                    else if (resultat === "profil") {
+                        console.log("inscription a échoué");
+                        let mess = document.getElementById("message-erreur");
+                        mess.textContent = "Impossible de générer le profil astral.";
+                        mess.style.visibility = "visible";
+                    }
+                    else if (resultat === "mdp") {
+                        console.log("inscription a échoué");
+                        let mess = document.getElementById("message-erreur");
+                        mess.textContent = "Les mots de passe ne se correspondent pas. Veuillez réessayer.";
+                        mess.style.visibility = "visible";
+                    }
+                    else if (resultat === "date") {
+                        console.log("inscription a échoué");
+                        let mess = document.getElementById("message-erreur");
+                        mess.textContent = "Veuillez entrer une date de naissance valide.";
+                        mess.style.visibility = "visible";
+                    }
+                    else {
+                        console.log("inscription a échoué");
+                        let mess = document.getElementById("message-erreur");
+                        mess.textContent = "Une erreur est survenue. Êtes-vous sûr de ne pas avoir de compte ? L'adresse mail est peut-être déjà utilisée.";
+                        mess.style.visibility = "visible";
+                    }                    
                 }
             }
             window.onload = initPage;
