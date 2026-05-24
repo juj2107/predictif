@@ -23,10 +23,10 @@ public class ServiceInitialisation {
     static public void initialiserClient() {
 
         Service.inscrireClient(new Client("Guerin", "Yoan", "20 avenue Albert Einstein, Villeurbanne 69100", "yg@hotmail.com", "123", "0600000000", LocalDate.now()));
-        Service.inscrireClient(new Client("Fontaine", "Jean", "20 avenue Albert Einstein, Villeurbanne 69100", "jf@hotmail.com", "123", "0600000000", LocalDate.now()));
-        Service.inscrireClient(new Client("Drucker", "Jules", "20 avenue Albert Einstein, Villeurbanne 69100", "jd@hotmail.com", "123", "0600000000", LocalDate.now()));
-        Service.inscrireClient(new Client("Dupont", "François", "20 avenue Albert Einstein, Villeurbanne 69100", "fd@hotmail.com", "123", "0600000000", LocalDate.now()));
-        Service.inscrireClient(new Client("Longues Oreilles", "Paco", "20 avenue Albert Einstein, Villeurbanne 69100", "plo@hotmail.com", "123", "0600000000", LocalDate.now()));
+        Service.inscrireClient(new Client("Fontaine", "Jean", "18 Rue Saint-Jean, 75005 Paris", "jf@hotmail.com", "123", "0600000000", LocalDate.now()));
+        Service.inscrireClient(new Client("Drucker", "Jules", "5 Rue de la République, 86000 Poitiers", "jd@hotmail.com", "123", "0600000000", LocalDate.now()));
+        Service.inscrireClient(new Client("Dupont", "François", "45 Rue de la Liberté, 13001 Marseille", "fd@hotmail.com", "123", "0600000000", LocalDate.now()));
+        Service.inscrireClient(new Client("Longues Oreilles", "Paco", "3 Boulevard des Dunes, 17370 Saint-Trojan-les-Bains", "plo@hotmail.com", "123", "0600000000", LocalDate.now()));
     }
 
     static public boolean initialiserMedium() {
