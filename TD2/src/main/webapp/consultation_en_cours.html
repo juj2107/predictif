@@ -83,17 +83,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                  1.5px  1.5px 0 #997c62;
             }
             
-            h2 {
-                font-size: 2.5rem;
-                color: #edd4be;
-                text-shadow: 0 0 10px rgba(227, 187, 152, 0.8);
-                margin-bottom: 30px;
-                margin-top: 0px;
-                font-family: "Bell MT", serif;
-                font-style: italic;
-                text-align: center;
-            }
-            
             h3 {
                 color: #edd4be;
                 text-align: center;
@@ -101,90 +90,24 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 text-shadow: 0 0 10px rgba(227, 187, 152, 0.8);
             }
             
-            #liste-mediums {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 20px;
-            }
-
-            .medium-card {
-                background-color: #10294a;
-                color: #edd4be;
-                width: auto;
-                border-radius: 12px;
-                padding: 15px;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            }
-
-            .medium-header {
-                display: flex;
-                justify-content: space-between;
-                cursor: pointer;
-                font-weight: bold;
-                align-items: center;
-            }
-
-            .arrow {
-                width: 10px;
-                height: 10px;
-                border-right: 2px solid #edd4be;
-                border-bottom: 2px solid #edd4be;
-                transform: rotate(315deg);
-                transition: transform 0.2s;
-            }
-            .arrow.open {
-                transform: rotate(405deg);
-            }
-
-            .medium-content {
-                max-height: 0;
-                overflow: hidden;
-                opacity: 0;
-                transition: all 0.25s ease;
-                margin-top: 0;
-            }
-
-            .medium-content.open {
-                max-height: 300px;
-                opacity: 1;
-                margin-top: 10px;
-            }
-            
-            .medium-nom {
-                background-color: #163763;
-                color: #edd4be;
-
-                border: 1px solid #163763;
-                border-radius: 6px;
-
-                padding: 8px;
-                font-family: Arial;
-                width: 180px;
-                display: flex;
-                gap: 12px;
-            } 
-            
-            .medium-profession {
-                margin-right: auto;
-                padding-left: 30px;
-            }
-            
             footer {
                 margin-top: auto;
                 background-color: #163763;
-                box-sizing: border-box;
-                display: flex;
-                justify-content: center;
-                align-items: stretch;
-                gap: 40px;
                 border-top: 2px solid #edd4be;
+
+                display: grid;
+                grid-template-columns: 1fr 2px 1fr;
+
+                box-sizing: border-box;
+
+                align-items: stretch;
                 color: #edd4be;
             }
 
             .footer-left,
             .footer-right {
-                width: 630px;
+                flex: 1;
+                padding-left: 60px;
             }
 
             .footer-separator {
@@ -196,30 +119,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 width: 400px;
             }
             
-            .bouton {
-                display: block;
-                margin-left: auto;
-                background-color: #5923d9;
-                color: #edd4be;
-                padding: 8px 14px;
-                border-radius: 6px;
-                font-weight: bold;
-                border: none;
-                cursor: pointer;
-                transition: 0.2s;
-                font-family: Arial;
-            }
-            
-            .bouton:hover {
-                transform: translateY(-1px);
-                text-decoration: underline;
-            }
-            
             .content {
                 padding-bottom: 40px;
             }
             
-            table {
+            #prediction, #tableau-commentaire {
                 background-color: #10294a;
 
                 border-radius: 12px;
@@ -256,27 +160,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
                 padding: 8px;
                 font-family: Arial;
-                width: 150px;
+                /*width: 150px;*/
                 display: block;
+                resize: none;
             }
             
-            .value-inline {
-                background-color: #163763;
-                color: #edd4be;
-
-                border: 1px solid #163763;
-                border-radius: 6px;
-
-                padding: 8px;
-                font-family: Arial;
-                width: 100px;
-                display: inline-block;
-            }
             
-            #demarrer {
+            #bouton-prediction, #terminer {
                 display: block;
                 margin: 10px auto;
-                background-color: #5923d9;
+                background-color: #5e1b7d;
                 color: #edd4be;
                 padding: 8px 14px;
                 border-radius: 6px;
@@ -287,7 +180,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 font-family: Arial;
             }
 
-            #demarrer:hover {
+            #bouton-prediction:hover, #terminer:hover {
                 transform: translateY(-1px);
                 text-decoration: underline;
             }
@@ -301,12 +194,56 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 flex-wrap: wrap;
             }
             
-            #historique {
+            .bloc-consultation {
                 display: flex;
                 flex-direction: column;
-                gap: 15px;
-                width: 500px;
+                align-items: center;
             }
+            
+            input[type="radio"] {
+                display: none;
+            }
+
+            .radio-box {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                width: 40px;
+                height: 40px;
+
+                background-color: #163763;
+                color: #edd4be;
+
+                border: none;
+                border-radius: 10px;
+
+                cursor: pointer;
+                transition: 0.2s;
+
+                font-weight: bold;
+            }
+
+            .radio-box:hover {
+                transform: translateY(-1px);
+                background-color: #1d467d;
+            }
+            
+            .radio-cell {
+                padding: 4px;
+            }
+
+            /* état sélectionné */
+            input[type="radio"]:checked + .radio-box {
+                background-color: #9e79c7;
+                box-shadow: 0 0 10px rgba(202,168,255,0.5);
+            }
+            
+            #commentaire {
+                margin: 0 auto;
+            }
+            
+            
         </style>
     </head>
     <body>
@@ -322,42 +259,97 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <h1 id="nom-client"></h1>
         
         <div id="conteneur-tableaux"> <!-- pour css, pour mettre les 2 tableaux à côté-->
-            <h3>Faire une prédiction</h3>
-            <table>
-                <tr>
-                    <td><input type="radio" name="amour" value="1">1</td>
-                    <td><input type="radio" name="amour" value="2">2</td>
-                    <td><input type="radio" name="amour" value="3">3</td>
-                    <td><input type="radio" name="amour" value="4">4</td>
-                    <td rowspan="4"><div id="texte-prediction"></div></td>
-                </tr>
-                <tr>
-                    <td><input type="radio" name="sante" value="1">1</td>
-                    <td><input type="radio" name="sante" value="2">2</td>
-                    <td><input type="radio" name="sante" value="3">3</td>
-                    <td><input type="radio" name="sante" value="4">4</td>
-                </tr>
-                <tr>
-                    <td><input type="radio" name="travail" value="1">1</td>
-                    <td><input type="radio" name="travail" value="2">2</td>
-                    <td><input type="radio" name="travail" value="3">3</td>
-                    <td><input type="radio" name="travail" value="4">4</td>
-                </tr>
-                <tr>
-                    <td colspan="4">
-                        <button id="bouton-prediction">Faire la prédiction</button>
-                    </td>
-                </tr>
-            </table>
-            <h3>Commentaire</h3>
-            <table>
-                <tr>
-                    <td>décrivez votre ressenti du client sur cette consultation:</td>
-                </tr>
-                <tr>
-                    <td><input id="commentaire"/></td>
-                </tr>
-            </table>
+            <div class="bloc-consultation">
+                <h3>Faire une prédiction</h3>
+                <table id="prediction">
+                    <tr>
+                        <td class="left-col">
+                            <table>
+                                <tr>
+                                    <th>Amour</th>
+                                    <td class="radio-cell">
+                                        <input type="radio" id="amour1" name="amour" value="1">
+                                        <label for="amour1" class="radio-box">1</label>
+                                    </td>
+                                    <td class="radio-cell">
+                                        <input type="radio" id="amour2" name="amour" value="2">
+                                        <label for="amour2" class="radio-box">2</label>
+                                    </td>
+                                    <td class="radio-cell">
+                                        <input type="radio" id="amour3" name="amour" value="3">
+                                        <label for="amour3" class="radio-box">3</label>
+                                    </td>
+                                    <td class="radio-cell">
+                                        <input type="radio" id="amour4" name="amour" value="4">
+                                        <label for="amour4" class="radio-box">4</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Santé</th>
+                                    <td class="radio-cell">
+                                        <input type="radio" id="sante1" name="sante" value="1">
+                                        <label for="sante1" class="radio-box">1</label>
+                                    </td>
+                                    <td class="radio-cell">
+                                        <input type="radio" id="sante2" name="sante" value="2">
+                                        <label for="sante2" class="radio-box">2</label>
+                                    </td>
+                                    <td class="radio-cell">
+                                        <input type="radio" id="sante3" name="sante" value="3">
+                                        <label for="sante3" class="radio-box">3</label>
+                                    </td>
+                                    <td class="radio-cell">
+                                        <input type="radio" id="sante4" name="sante" value="4">
+                                        <label for="sante4" class="radio-box">4</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Travail</th>
+                                    <td class="radio-cell">
+                                        <input type="radio" id="travail1" name="travail" value="1">
+                                        <label for="travail1" class="radio-box">1</label>
+                                    </td>
+                                    <td class="radio-cell">
+                                        <input type="radio" id="travail2" name="travail" value="2">
+                                        <label for="travail2" class="radio-box">2</label>
+                                    </td>
+                                    <td class="radio-cell">
+                                        <input type="radio" id="travail3" name="travail" value="3">
+                                        <label for="travail3" class="radio-box">3</label>
+                                    </td>
+                                    <td class="radio-cell">
+                                        <input type="radio" id="travail4" name="travail" value="4">
+                                        <label for="travail4" class="radio-box">4</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <button id="bouton-prediction">Faire la prédiction</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        <td class="right-col">
+                            <div id="texte-prediction" class="value" style="width: 300px; height: 300px;"></div>
+                        </td>
+                    </tr>
+                </table>
+                
+            </div>
+            
+            <div class="bloc-consultation">
+                <h3>Commentaire</h3>
+                <table id="tableau-commentaire">
+                    <tr>
+                        <td>Décrivez votre ressenti du client sur cette consultation :</td>
+                    </tr>
+                    <tr>
+                        <td><textarea id="commentaire" class="value" style="width:450px; min-height: 150px;"></textarea></td>
+                    </tr>
+                </table>
+            </div>
+            
         </div>
         
         <button id="terminer">Terminer la consultation</button>
@@ -517,9 +509,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     let mess = document.getElementById("texte-prediction");
                     let text = "";
                     for (let prediction of predictions) {
-                        text = text + prediction.prediction;
+                        text = text + prediction.prediction + " ";
                     }
-                    mess.textContent = text + " ";
+                    mess.textContent = text;
                     
                     
                     

@@ -105,22 +105,24 @@
                 font-family: "Bell MT", serif;
             }
 
-
             footer {
-                margin-top: 40px;
+                margin-top: auto;
                 background-color: #163763;
-                box-sizing: border-box;
-                display: flex;
-                justify-content: center;
-                align-items: stretch;
-                gap: 40px;
                 border-top: 2px solid #edd4be;
+
+                display: grid;
+                grid-template-columns: 1fr 2px 1fr;
+
+                box-sizing: border-box;
+
+                align-items: stretch;
                 color: #edd4be;
             }
 
             .footer-left,
             .footer-right {
-                width: 630px;
+                flex: 1;
+                padding-left: 60px;
             }
 
             .footer-separator {

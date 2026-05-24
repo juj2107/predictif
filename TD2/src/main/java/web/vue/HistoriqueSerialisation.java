@@ -34,9 +34,20 @@ public class HistoriqueSerialisation extends Serialisation{
 
         for (Consultation consultation : historique) {
             JsonObjectBuilder jsonConsultation = Json.createObjectBuilder();
-            jsonConsultation.add("medium", consultation.getMedium().getDenomination());
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            jsonConsultation.add("date", consultation.getDateDebut().format(formatter));
+            if (consultation.getMedium() != null && consultation.getMedium().getDenomination() != null) {
+                jsonConsultation.add("medium", consultation.getMedium().getDenomination());
+            } else {
+                jsonConsultation.add("medium", "inconnu");
+            }
+
+            if (consultation.getDateDebut() != null) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                jsonConsultation.add("date", consultation.getDateDebut().format(formatter));
+            } else {
+                jsonConsultation.add("date", "non définie");
+            }
+            
+            
             String commentaire = consultation.getCommentaire();
             if(commentaire != null){
                 jsonConsultation.add("commentaire", commentaire);

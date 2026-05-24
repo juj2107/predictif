@@ -79,20 +79,23 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 text-decoration: underline;
             }
             footer {
-                margin-top: 40px;
+                margin-top: auto;
                 background-color: #163763;
-                /*padding: 20px;*/
-                box-sizing: border-box;
-                display: flex;
-                justify-content: center;
-                align-items: stretch;
-                gap: 40px;
                 border-top: 2px solid #edd4be;
-                color:#edd4be;
+
+                display: grid;
+                grid-template-columns: 1fr 2px 1fr;
+
+                box-sizing: border-box;
+
+                align-items: stretch;
+                color: #edd4be;
             }
+
             .footer-left,
             .footer-right {
-                width: 630px;
+                flex: 1;
+                padding-left: 60px;
             }
             .footer-separator {
                 width: 2px;

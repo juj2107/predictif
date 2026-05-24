@@ -135,7 +135,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             #bouton-valider {
                 display: block;
                 margin: 10px auto;
-                background-color: #5923d9;
+                background-color: #5e1b7d;
                 color: #edd4be;
                 padding: 8px 14px;
                 border-radius: 6px;
@@ -167,18 +167,21 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             footer {
                 margin-top: auto;
                 background-color: #163763;
-                box-sizing: border-box;
-                display: flex;
-                justify-content: center;
-                align-items: stretch;
-                gap: 40px;
                 border-top: 2px solid #edd4be;
+
+                display: grid;
+                grid-template-columns: 1fr 2px 1fr;
+
+                box-sizing: border-box;
+
+                align-items: stretch;
                 color: #edd4be;
             }
 
             .footer-left,
             .footer-right {
-                width: 630px;
+                flex: 1;
+                padding-left: 60px;
             }
 
             .footer-separator {
