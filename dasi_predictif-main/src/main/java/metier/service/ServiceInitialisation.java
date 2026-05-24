@@ -63,8 +63,9 @@ public class ServiceInitialisation {
             JpaUtil.ouvrirTransaction();
             EmployeDAO.create(new Employe("Guerin", "Yoan", "yg@gmail.fr", "M", "123", "06 62 83 96 94"));
             EmployeDAO.create(new Employe("Letourneur", "Camille", "cl@jaimail.fr", "F", "123", "06 62 83 96 95"));
-            EmployeDAO.create(new Employe("Wallerick", "Nathan", "nw@yahoo.fr", "M", "123", "06 62 83 96 95"));
+            EmployeDAO.create(new Employe("Wallerick", "Nathan", "nw@yahoo.fr", "M", "123", "06 62 83 96 96"));
             EmployeDAO.create(new Employe("Manchec", "Serguei", "sm@hotmail.fr", "M", "super mot de passe", "07 67 23 96 23"));
+            EmployeDAO.create(new Employe("Morel", "Clara", "cm@laposte.fr", "F", "motdepasse", "06 45 12 87 43"));
             JpaUtil.validerTransaction();
         } catch (Exception ex) {
             System.getLogger(Service.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
