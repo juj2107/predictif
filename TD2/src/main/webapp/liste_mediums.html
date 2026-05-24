@@ -133,6 +133,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 max-height: 300px;
                 opacity: 1;
                 margin-top: 10px;
+                border-top: 1px solid rgba(237, 212, 190, .5);
+                padding-top: 10px;
             }
             
             .medium-nom {
@@ -225,10 +227,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 padding-bottom: 40px;
             }
             
-            img {
+            .icone-profil {
                 width: 20px;
                 height: 20px;
-            }
+
+                background-color: #edd4be;
+
+                mask: url("./images/profile.svg") no-repeat center;
+                mask-size: contain;
+
+                -webkit-mask: url("./images/profile.svg") no-repeat center;
+                -webkit-mask-size: contain;
+            } 
         </style>
     </head>
     <body>
@@ -382,9 +392,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
                         const profil = document.createElement("div");
                         profil.className = "medium-nom";
-                        const image = document.createElement("img");
-                        image.src="./images/profil.png";
-                        image.alt="image profil medium";
+                        let image = document.createElement("div");
+                        image.className = "icone-profil";
                         const nom = document.createElement("div");
                         nom.textContent = medium.denomination;
                         profil.appendChild(image);

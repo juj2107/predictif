@@ -20,6 +20,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
                 min-height: 100vh;
                 display: flex;
                 flex-direction: column;
+                color: #edd4be;
             }
 
             header {
@@ -115,32 +116,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
                 background-color: #edd4be;
                 height: auto;
             }
-            .nav-spacer {
-                width: 400px;
-            }
-            
-            .bouton {
-                display: block;
-                margin-left: auto;
-                background-color: #5e1b7d;
-                color: #edd4be;
-                padding: 8px 14px;
-                border-radius: 6px;
-                font-weight: bold;
-                border: none;
-                cursor: pointer;
-                transition: 0.2s;
-                font-family: Arial;
-            }
-            
-            .bouton:hover {
-                transform: translateY(-1px);
-                text-decoration: underline;
-            }
-            
-            .content {
-                padding-bottom: 40px;
-            }
             
             table {
                 background-color: #10294a;
@@ -157,32 +132,51 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
                 margin: 0;
             }
             
-            th {
-                text-align: right;
+            #mediums,
+            #pigeons {
+                width: 320px;
+            }
+            
+            #stats-centre td {
                 vertical-align: middle;
-                white-space: nowrap;
-                padding: 10px 12px;
+                padding: 6px 10px;
             }
             
-            td {
-                text-align: left;
-                padding: 10px 12px;
+            #stats-centre .sous-titre {
+                line-height: 1.4;
+                margin-bottom: 10px;
             }
             
             
-            .value {
+            #stats-centre .value-inline {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+
+                min-width: 30px;
+                padding: 8px;
+
                 background-color: #163763;
                 color: #edd4be;
 
-                border: 1px solid #163763;
                 border-radius: 6px;
-
-                padding: 8px;
                 font-family: Arial;
-                width: 150px;
-                display: block;
             }
             
+            #nombre {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 40px;
+                padding: 6px 10px;
+                position: relative;
+                top: -2px; /* ajuste la valeur selon ce qui te convient */
+            }
+            
+            #stats-centre td {
+                padding: 6px 10px;
+            }
+
             .value-inline {
                 background-color: #163763;
                 color: #edd4be;
@@ -192,27 +186,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
 
                 padding: 8px;
                 font-family: Arial;
-                width: 100px;
+                min-width: 30px;
                 display: inline-block;
-            }
-            
-            #demarrer {
-                display: block;
-                margin: 10px auto;
-                background-color: #5e1b7d;
-                color: #edd4be;
-                padding: 8px 14px;
-                border-radius: 6px;
-                font-weight: bold;
-                border: none;
-                cursor: pointer;
-                transition: 0.2s;
-                font-family: Arial;
-            }
-
-            #demarrer:hover {
-                transform: translateY(-1px);
-                text-decoration: underline;
             }
             
             #conteneur-tableaux {
@@ -224,18 +199,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
                 flex-wrap: wrap;
             }
             
-            #historique {
-                display: flex;
-                flex-direction: column;
-                gap: 15px;
-                width: 500px;
-            }
-            
-            .note {
-                text-align: center;
-                font-variant: small-caps;
-            }
-            
             div.charts {
                 text-align: center;
             }
@@ -243,15 +206,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
             div.chart {
                 width: 600px;
                 height:400px;
-                margin: 10px 10px;
+                margin-top: -45px;
                 display: inline-block;
             }
 
             .titre {
                 font-size: 2.5rem;
                 color: #64b4d1;
-                /*text-shadow: 0 0 10px rgba(227, 187, 152, 0.8);*/
-                margin-bottom: 30px;
+                padding-bottom: 10px;
+                border-bottom: 1px solid #cfbeb0;
                 margin-top: 0px;
                 font-family: "Comic Relief";
                 text-align: center;
@@ -260,6 +223,49 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
                  2px -2px 0 #163763,
                 -2px  2px 0 #163763,
                  2px  2px 0 #163763;
+            }
+            
+            .sous-titre {
+                font-size: 1.8rem;
+                color: #64b4d1;
+                margin-bottom: 30px;
+                margin-top: 0px;
+                font-family: "Comic Relief";
+                text-align: center;
+                white-space: nowrap;
+                text-shadow:
+                -2px -2px 0 #163763,
+                 2px -2px 0 #163763,
+                -2px  2px 0 #163763,
+                 2px  2px 0 #163763;
+            }
+            
+            .nom-colonne {
+                font-size: 0.85rem;
+                text-align: center;
+                white-space: normal; 
+                line-height: 1.1;
+                padding-top: 15px;
+            }
+            
+            .icone-profil {
+                width: 20px;
+                height: 20px;
+
+                background-color: #edd4be;
+
+                mask: url("./images/profile.svg") no-repeat center;
+                mask-size: contain;
+
+                -webkit-mask: url("./images/profile.svg") no-repeat center;
+                -webkit-mask-size: contain;
+            } 
+            
+            #premiere-ligne {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 12px;
             }
         </style>
     </head>
@@ -278,37 +284,40 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
             
             <table id="mediums">
                 <tr>
-                    <td colspan="3" class="titre">Top 5 Médiums</td>
+                    <td colspan="3" class="titre">Top 5<br>Médiums</td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td>Nom Prenom</td>
-                    <td>Nombre consultations</td>
+                    <td class="nom-colonne">Nom<br>Prénom</td>
+                    <td class="nom-colonne">Nombre<br>consultations</td>
                 </tr>                  
             </table>
             
-            <table>
-                <tr>                    
-                    <td>Nombre consultations/médium:</td>
-                    <td id="nombre"></td>
+            <table id="stats-centre">
+                <tr> 
+                    <td id="premiere-ligne">
+                        <div class="sous-titre">Nombre consultations/médium :</div>
+                        <div id="nombre" class="value-inline"></div>
+                    </td>
+                    
                 </tr>
                 <tr>                    
-                    <td colspan="2">Répartition Clients par Employé :</td>
+                    <td class="sous-titre">Répartition Clients par Employé :</td>
                 </tr>
                 <tr>
-                    <td colspan = "2"> <div id="graphe" class="chart"></div> </td>
+                    <td> <div id="graphe" class="chart"></div> </td>
                 </tr>
             </table>
            
             
             <table id="pigeons">
                 <tr>
-                    <td colspan="3" class="titre">Top 5 PIGEONS Clients</td>
+                    <td colspan="3" class="titre">Top 5<br>PIGEONS<br>Clients</td>
                 </tr>
                 <tr>
                     <td> </td>
-                    <td>Nom Prenom</td>
-                    <td>Nombre consultations </td>
+                    <td class="nom-colonne">Nom<br>Prenom</td>
+                    <td class="nom-colonne">Nombre<br>consultations </td>
                 </tr>                  
             </table>
         </div>
@@ -388,16 +397,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
                     for (let medium of mediums) {
                         let row = document.createElement("tr");   
                         let tdImage = document.createElement("td");
-                        let image = document.createElement("img");
-                        image.src = "images/profil.png";
-                        image.alt = "Logo profil";
-                        image.width = 20;
+                        let image = document.createElement("div");
+                        image.className = "icone-profil";
                         tdImage.appendChild(image);
                         row.appendChild(tdImage);
                         let tdMedium = document.createElement("td");
                         tdMedium.textContent = medium.denomination;
                         row.appendChild(tdMedium);
                         let tdNbConsultations = document.createElement("td");
+                        tdNbConsultations.className = "value-inline";
                         tdNbConsultations.textContent = medium.nbConsultations;
                         row.appendChild(tdNbConsultations);
                         tableMediums.appendChild(row);
@@ -425,10 +433,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
                     for (let client of clients) {
                         let row = document.createElement("tr");
                         let tdImage = document.createElement("td");
-                        let image = document.createElement("img");
-                        image.src = "images/profil.png";
-                        image.alt = "Logo profil";
-                        image.width = 20;
+                        let image = document.createElement("div");
+                        image.className = "icone-profil";
                         tdImage.appendChild(image);
                         row.appendChild(tdImage);
                         let tdClient = document.createElement("td");
@@ -436,6 +442,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
                         row.appendChild(tdClient);
                         let tdNbConsultationsClient = document.createElement("td");
                         tdNbConsultationsClient.textContent = client.nbConsultations;
+                        tdNbConsultationsClient.className = "value-inline";
                         row.appendChild(tdNbConsultationsClient);
                         tableClients.appendChild(row);
                     }
@@ -445,7 +452,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
 
                 // Paramétrage du Graphe
                 let chartOptions = {
-                    color: ['#355c96', '#5e1b7d', '#a779c7', '#1c239e', '#64b4d1'],
+                    color: ['#355c96', '#5e1b7d', '#a779c7', '#232996', '#64b4d1', '#7c9eb2', '#52528c'],
                     tooltip: {
                         trigger: 'item',
 
@@ -468,7 +475,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
                       //top: '5%',
                       left: 'center',
                       textStyle: {
-                        color: "#edd4be"
+                        color: "#edd4be",
+                        fontSize: 14
                       }
                     },
                     series: [
